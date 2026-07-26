@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'users_page.dart';
 import 'profile_page.dart';
+import '../widgets/settings_dialog.dart';
 
 class DashboardPage extends StatefulWidget {
   final String firstName;
@@ -17,7 +20,6 @@ class DashboardPage extends StatefulWidget {
     required this.email,
     required this.dob,
   });
-  
 
   @override
   State<DashboardPage> createState() => _DashboardPageState();
@@ -43,16 +45,37 @@ class _DashboardPageState extends State<DashboardPage> {
       backgroundColor: Colors.grey.shade100,
 
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0,
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
         centerTitle: true,
+
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back),
+        //   onPressed: () {
+        //     SystemNavigator.pop();
+        //   },
+        // ),
+
         title: Text(
           currentIndex == 0 ? "Users" : "My Profile",
           style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
+
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) => const SettingsDialog(),
+              );
+            },
+          ),
+        ],
       ),
 
       body: Column(
@@ -98,7 +121,7 @@ class _DashboardPageState extends State<DashboardPage> {
           NavigationDestination(
             icon: Icon(Icons.people_outline),
             selectedIcon: Icon(Icons.people),
-            label: "Users ",
+            label: "Users",
           ),
           NavigationDestination(
             icon: Icon(Icons.person_outline),

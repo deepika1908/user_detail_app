@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'screens/login_page.dart';
-// import 'screens/dashboard_page.dart';
-// import 'screens/register_page.dart ';
-// import 'screens/otp_verification_page.dart';
+
+import 'providers/theme_provider.dart';
+import 'providers/language_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ThemeProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LanguageProvider(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -13,13 +27,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'User Management',
+
+      title: "User Management",
+
+      themeMode: themeProvider.themeMode,
 
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
         useMaterial3: true,
+        brightness: Brightness.light,
+        colorSchemeSeed: Colors.deepPurple,
+      ),
+
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        colorSchemeSeed: Colors.deepPurple,
       ),
 
       home: const LoginPage(),

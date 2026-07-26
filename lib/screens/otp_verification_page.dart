@@ -27,11 +27,10 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
 
   // Dummy OTP
   final String savedOtp = "123456";
-
-void verifyOtp() {
+  void verifyOtp() {
   if (_formKey.currentState!.validate()) {
     if (otpController.text == savedOtp) {
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
           builder: (_) => DashboardPage(
@@ -42,6 +41,7 @@ void verifyOtp() {
             dob: widget.dob,
           ),
         ),
+        (route) => false,
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
