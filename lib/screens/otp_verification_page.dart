@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dashboard_page.dart ';
+import '../providers/language_provider.dart';
 
 class OtpVerificationPage extends StatefulWidget {
   final String firstName;
@@ -62,6 +64,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
 
   @override
   Widget build(BuildContext context) {
+     final languageProvider = Provider.of<LanguageProvider>(context);
     return Scaffold(
       backgroundColor: Colors.deepPurple.shade50,
       body: SafeArea(
@@ -84,8 +87,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
 
                 const SizedBox(height: 25),
 
-                const Text(
-                  "OTP Verification",
+                Text(
+                  languageProvider.text("otp_verification"),
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -95,7 +98,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                 const SizedBox(height: 10),
 
                 Text(
-                  "Enter the 6-digit OTP sent to your email",
+                  languageProvider.text("enter_6_digit_otp"),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.grey.shade700,
@@ -110,7 +113,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                   keyboardType: TextInputType.number,
                   maxLength: 6,
                   decoration: InputDecoration(
-                    hintText: "Enter OTP",
+                    hintText: languageProvider.text("enter_otp"),
                     prefixIcon: const Icon(Icons.lock_outline),
                     counterText: "",
                     border: OutlineInputBorder(
@@ -119,11 +122,11 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "OTP is required";
+                      return languageProvider.text("otp_required");
                     }
 
                     if (!RegExp(r'^\d{6}$').hasMatch(value)) {
-                      return "OTP must contain exactly 6 digits";
+                      return languageProvider.text("invalid_otp");
                     }
 
                     return null;
@@ -143,8 +146,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                       ),
                     ),
                     onPressed: verifyOtp,
-                    child: const Text(
-                      "Verify OTP",
+                    child: Text(
+                      languageProvider.text("verify_otp"),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -158,13 +161,13 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                 TextButton(
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("OTP Resent Successfully"),
+                       SnackBar(
+                        content: Text(languageProvider.text("otp_resent_successfully")),
                       ),
                     );
                   },
-                  child: const Text(
-                    "Resend OTP",
+                  child: Text(
+                    languageProvider.text("resend_otp"),
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
@@ -178,8 +181,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                     color: Colors.deepPurple.shade100,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Text(
-                    "Demo OTP: 123456",
+                  child: Text(
+                    languageProvider.text("demo_otp"),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.deepPurple,

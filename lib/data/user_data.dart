@@ -1,0 +1,67 @@
+import '../models/user.dart';
+
+const List<User> users = [
+  User(
+    name: "User 1",
+    email: "user1@gmail.com",
+    phone: "9876543210",
+    education: "B.Tech CSE",
+    gender: "Male",
+  ),
+  User(
+    name: "User 2",
+    email: "user2@gmail.com",
+    phone: "9876543211",
+    education: "BCA",
+    gender: "Female",
+  ),
+  User(
+    name: "User 3",
+    email: "user3@gmail.com",
+    phone: "9876543212",
+    education: "MCA",
+    gender: "Male",
+  ),
+  User(
+    name: "User 4",
+    email: "user4@gmail.com",
+    phone: "9876543213",
+    education: "B.Sc",
+    gender: "Female",
+  ),
+  User(
+    name: "User 5",
+    email: "user5@gmail.com",
+    phone: "9876543214",
+    education: "MBA",
+    gender: "Male",
+  ),
+  User(
+    name: "User 6",
+    email: "user6@gmail.com",
+    phone: "9876543215",
+    education: "B.Com",
+    gender: "Female",
+  ),
+  User(
+    name: "User 7",
+    email: "user7@gmail.com",
+    phone: "9876543216",
+    education: "B.A",
+    gender: "Male",
+  ),
+  User(
+    name: "User 8",
+    email: "user8@gmail.com",
+    phone: "9876543215",
+    education: "B.Com",
+    gender: "Female",
+  ),
+  User(
+    name: "User 9",
+    email: "user9@gmail.com",
+    phone: "9876543217",
+    education: "M.Sc",
+    gender: "Male",
+  ),
+];

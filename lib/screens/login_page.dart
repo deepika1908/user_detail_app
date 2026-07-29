@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/language_provider.dart';
 import 'register_page.dart';
 import 'otp_verification_page.dart';
 
@@ -26,6 +29,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
+
     return Scaffold(
       backgroundColor: Colors.deepPurple.shade50,
       body: SafeArea(
@@ -48,10 +53,10 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 30),
 
-                const Center(
+                Center(
                   child: Text(
-                    "Welcome Back",
-                    style: TextStyle(
+                    languageProvider.text("welcome_back"),
+                    style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
                     ),
@@ -62,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 Center(
                   child: Text(
-                    "Login to continue",
+                    languageProvider.text("login_to_continue"),
                     style: TextStyle(
                       color: Colors.grey.shade600,
                       fontSize: 16,
@@ -72,9 +77,11 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 35),
 
-                const Text(
-                  "First Name",
-                  style: TextStyle(fontWeight: FontWeight.w500),
+                Text(
+                  languageProvider.text("first_name"),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
 
                 const SizedBox(height: 8),
@@ -82,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                 TextFormField(
                   controller: firstNameController,
                   decoration: InputDecoration(
-                    hintText: "Enter First Name",
+                    hintText: languageProvider.text("enter_first_name"),
                     prefixIcon: const Icon(Icons.person),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -90,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return "First Name is required";
+                      return languageProvider.text("first_name_required");
                     }
                     return null;
                   },
@@ -98,9 +105,11 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 20),
 
-                const Text(
-                  "Last Name",
-                  style: TextStyle(fontWeight: FontWeight.w500),
+                Text(
+                  languageProvider.text("last_name"),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
 
                 const SizedBox(height: 8),
@@ -108,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                 TextFormField(
                   controller: lastNameController,
                   decoration: InputDecoration(
-                    hintText: "Enter Last Name",
+                    hintText: languageProvider.text("enter_last_name"),
                     prefixIcon: const Icon(Icons.person_outline),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -116,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return "Last Name is required";
+                      return languageProvider.text("last_name_required");
                     }
                     return null;
                   },
@@ -124,9 +133,11 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 20),
 
-                const Text(
-                  "Email",
-                  style: TextStyle(fontWeight: FontWeight.w500),
+                Text(
+                  languageProvider.text("email"),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
 
                 const SizedBox(height: 8),
@@ -135,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    hintText: "example@gmail.com",
+                    hintText: languageProvider.text("example_email"),
                     prefixIcon: const Icon(Icons.email_outlined),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -143,13 +154,13 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "Email is required";
+                      return languageProvider.text("email_required");
                     }
 
                     if (!RegExp(
                       r'^[a-zA-Z0-9._%+-]+@gmail\.com$',
                     ).hasMatch(value)) {
-                      return "Enter a valid Gmail address";
+                      return languageProvider.text("enter_valid_gmail");
                     }
 
                     return null;
@@ -184,9 +195,9 @@ class _LoginPageState extends State<LoginPage> {
                         );
                       }
                     },
-                    child: const Text(
-                      "Login",
-                      style: TextStyle(
+                    child: Text(
+                      languageProvider.text("login"),
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
                       ),
@@ -199,7 +210,9 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("New User?"),
+                    Text(
+                      languageProvider.text("new_user"),
+                    ),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
@@ -209,7 +222,9 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         );
                       },
-                      child: const Text("Register"),
+                      child: Text(
+                        languageProvider.text("register"),
+                      ),
                     ),
                   ],
                 ),

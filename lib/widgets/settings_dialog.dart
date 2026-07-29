@@ -56,9 +56,9 @@ class SettingsDialog extends StatelessWidget {
 
   /// Theme Section
   Widget _buildThemeSection(
-      ThemeProvider themeProvider,
-      LanguageProvider languageProvider,
-      ) {
+    ThemeProvider themeProvider,
+    LanguageProvider languageProvider,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -107,8 +107,8 @@ class SettingsDialog extends StatelessWidget {
 
   /// Language Section
   Widget _buildLanguageSection(
-      LanguageProvider languageProvider,
-      ) {
+    LanguageProvider languageProvider,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -123,13 +123,13 @@ class SettingsDialog extends StatelessWidget {
         const SizedBox(height: 10),
 
         _buildLanguageTile(
-          title: "English",
+          title: languageProvider.text("english"),
           languageCode: "en",
           provider: languageProvider,
         ),
 
         _buildLanguageTile(
-          title: "العربية",
+          title: languageProvider.text("arabic"),
           languageCode: "ar",
           provider: languageProvider,
         ),
@@ -157,9 +157,9 @@ class SettingsDialog extends StatelessWidget {
 
   /// Close Button
   Widget _buildCloseButton(
-      BuildContext context,
-      LanguageProvider languageProvider,
-      ) {
+    BuildContext context,
+    LanguageProvider languageProvider,
+  ) {
     return TextButton(
       onPressed: () {
         Navigator.pop(context);

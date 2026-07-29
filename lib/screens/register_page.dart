@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'otp_verification_page.dart';
+import 'package:provider/provider.dart';
+import '../providers/language_provider.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -58,6 +60,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
     return Scaffold(
       backgroundColor: Colors.deepPurple.shade50,
       body: SafeArea(
@@ -80,9 +83,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 const SizedBox(height: 20),
 
-                const Center(
+                Center(
                   child: Text(
-                    "Create Account",
+                    languageProvider.text("create_account"),
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
@@ -94,7 +97,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 Center(
                   child: Text(
-                    "Fill in your details to register",
+                    languageProvider.text("fill_details"),
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 16,
@@ -113,12 +116,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 TextFormField(
                   controller: firstNameController,
                   decoration: inputDecoration(
-                    "Enter First Name",
+                    languageProvider.text("enter_first_name"),
                     Icons.person,
                   ),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return "First Name is required";
+                      return languageProvider.text("first_name_required");
                     }
                     return null;
                   },
@@ -126,8 +129,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 const SizedBox(height: 20),
 
-                const Text(
-                  "Last Name",
+                Text(
+                  languageProvider.text("last_name"),
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 8),
@@ -135,12 +138,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 TextFormField(
                   controller: lastNameController,
                   decoration: inputDecoration(
-                    "Enter Last Name",
+                    languageProvider.text("enter_last_name"),
                     Icons.person_outline,
                   ),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return "Last Name is required";
+                      return languageProvider.text("last_name_required");
                     }
                     return null;
                   },
@@ -148,8 +151,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 const SizedBox(height: 20),
 
-                const Text(
-                  "Phone Number",
+                Text(
+                  languageProvider.text("phone_number"),
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 8),
@@ -159,16 +162,16 @@ class _RegisterPageState extends State<RegisterPage> {
                   keyboardType: TextInputType.phone,
                   maxLength: 10,
                   decoration: inputDecoration(
-                    "Enter Phone Number",
+                    languageProvider.text("enter_phone_number"),
                     Icons.phone,
                   ).copyWith(counterText: ""),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "Phone Number is required";
+                      return languageProvider.text("phone_number_required");
                     }
 
                     if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
-                      return "Enter a valid 10-digit phone number";
+                      return languageProvider.text("valid_phone");
                     }
 
                     return null;
@@ -177,8 +180,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 const SizedBox(height: 20),
 
-                const Text(
-                  "Email",
+                Text(
+                  languageProvider.text("email"),
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 8),
@@ -187,18 +190,18 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: inputDecoration(
-                    "example@gmail.com",
+                    languageProvider.text("example_email"),
                     Icons.email_outlined,
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "Email is required";
+                      return languageProvider.text("email_required");
                     }
 
                     if (!RegExp(
                       r'^[a-zA-Z0-9._%+-]+@gmail\.com$',
                     ).hasMatch(value)) {
-                      return "Enter a valid Gmail address";
+                      return languageProvider.text("enter_valid_gmail");
                     }
 
                     return null;
@@ -207,8 +210,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 const SizedBox(height: 20),
 
-                const Text(
-                  "Date of Birth",
+                Text(
+                  languageProvider.text("date_of_birth"),
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 8),
@@ -218,13 +221,13 @@ class _RegisterPageState extends State<RegisterPage> {
                   readOnly: true,
                   onTap: selectDate,
                   decoration: inputDecoration(
-                    "Select Date of Birth",
+                    languageProvider.text("select_dob"),
                     Icons.calendar_today_outlined,
                     suffixIcon: const Icon(Icons.arrow_drop_down),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "Date of Birth is required";
+                      return languageProvider.text("dob_required");
                     }
                     return null;
                   },
@@ -274,12 +277,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Already have an account?"),
+                    Text(languageProvider.text("already_have_account")),
                     TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text("Login"),
+                      child: Text(languageProvider.text("login")),
                     ),
                   ],
                 ),

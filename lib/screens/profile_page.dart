@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'login_page.dart';
+import '../providers/language_provider.dart';
+
 
 class ProfilePage extends StatelessWidget {
   final String firstName;
@@ -41,6 +44,8 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
       child: Card(
@@ -69,11 +74,30 @@ class ProfilePage extends StatelessWidget {
 
               const SizedBox(height: 25),
 
-              profileRow("First Name", firstName),
-              profileRow("Last Name", lastName),
-              profileRow("Phone", phone),
-              profileRow("Email", email),
-              profileRow("Date of Birth", dob),
+              profileRow(
+                languageProvider.text("first_name"),
+                firstName,
+              ),
+
+              profileRow(
+                languageProvider.text("last_name"),
+                lastName,
+              ),
+
+              profileRow(
+                languageProvider.text("phone"),
+                phone,
+              ),
+
+              profileRow(
+                languageProvider.text("email"),
+                email,
+              ),
+
+              profileRow(
+                languageProvider.text("date_of_birth"),
+                dob,
+              ),
 
               const SizedBox(height: 35),
 
@@ -86,7 +110,9 @@ class ProfilePage extends StatelessWidget {
                     foregroundColor: Colors.white,
                   ),
                   icon: const Icon(Icons.logout),
-                  label: const Text("Logout"),
+                  label: Text(
+                    languageProvider.text("logout"),
+                  ),
                   onPressed: () {
                     Navigator.pushAndRemoveUntil(
                       context,

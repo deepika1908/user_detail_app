@@ -28,11 +28,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = context.watch<ThemeProvider>();
+    final languageProvider = context.watch<LanguageProvider>();
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      title: "User Management",
+      title: languageProvider.text("user_management"),
 
       themeMode: themeProvider.themeMode,
 

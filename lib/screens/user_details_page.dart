@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/user.dart';
+import '../providers/language_provider.dart';
 
 class UserDetailsPage extends StatelessWidget {
-  final Map<String, String> student;
+  final User user;
 
   const UserDetailsPage({
     super.key,
-    required this.student,
+    required this.user,
   });
 
   Widget detailTile(
-      IconData icon,
-      String title,
-      String value,
-      ) {
+    IconData icon,
+    String title,
+    String value,
+  ) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
@@ -33,25 +36,28 @@ class UserDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
+
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
 
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
-        title: const Text("User Details"),
+        title: Text(
+          languageProvider.text("user_details"),
+        ),
       ),
 
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-
             CircleAvatar(
               radius: 50,
               backgroundColor: Colors.deepPurple.shade100,
               child: Text(
-                student["name"]![0],
+                user.name[0],
                 style: const TextStyle(
                   fontSize: 36,
                   color: Colors.deepPurple,
@@ -63,7 +69,7 @@ class UserDetailsPage extends StatelessWidget {
             const SizedBox(height: 15),
 
             Text(
-              student["name"]!,
+              user.name,
               style: const TextStyle(
                 fontSize: 26,
                 fontWeight: FontWeight.bold,
@@ -74,32 +80,32 @@ class UserDetailsPage extends StatelessWidget {
 
             detailTile(
               Icons.person,
-              "Name",
-              student["name"]!,
+              languageProvider.text("name"),
+              user.name,
             ),
 
             detailTile(
               Icons.email,
-              "Email",
-              student["email"]!,
+              languageProvider.text("email"),
+              user.email,
             ),
 
             detailTile(
               Icons.phone,
-              "Phone",
-              student["phone"]!,
+              languageProvider.text("phone"),
+              user.phone,
             ),
 
             detailTile(
               Icons.school,
-              "Education",
-              student["education"]!,
+              languageProvider.text("education"),
+              user.education,
             ),
 
             detailTile(
               Icons.people,
-              "Gender",
-              student["gender"]!,
+              languageProvider.text("gender"),
+              user.gender,
             ),
           ],
         ),

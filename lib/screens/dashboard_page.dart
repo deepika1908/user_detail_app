@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import 'users_page.dart';
 import 'profile_page.dart';
 import '../widgets/settings_dialog.dart';
+import '../providers/language_provider.dart';
 
 class DashboardPage extends StatefulWidget {
   final String firstName;
@@ -30,6 +31,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
+
     final List<Widget> pages = [
       const UsersPage(),
       ProfilePage(
@@ -51,15 +54,10 @@ class _DashboardPageState extends State<DashboardPage> {
         foregroundColor: Colors.white,
         centerTitle: true,
 
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back),
-        //   onPressed: () {
-        //     SystemNavigator.pop();
-        //   },
-        // ),
-
         title: Text(
-          currentIndex == 0 ? "Users" : "My Profile",
+          currentIndex == 0
+              ? languageProvider.text("users")
+              : languageProvider.text("my_profile"),
           style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -89,17 +87,19 @@ class _DashboardPageState extends State<DashboardPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Welcome, ${widget.firstName} 👋",
+                    "${languageProvider.text("welcome")}, ${widget.firstName} 👋",
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                   const SizedBox(height: 5),
-                  const Text(
-                    "User Dashboard",
-                    style: TextStyle(
+
+                  Text(
+                    languageProvider.text("user_dashboard"),
+                    style: const TextStyle(
                       color: Colors.white70,
                     ),
                   ),
@@ -117,16 +117,16 @@ class _DashboardPageState extends State<DashboardPage> {
         selectedIndex: currentIndex,
         indicatorColor: Colors.deepPurple.shade100,
         height: 70,
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.people_outline),
-            selectedIcon: Icon(Icons.people),
-            label: "Users",
+            icon: const Icon(Icons.people_outline),
+            selectedIcon: const Icon(Icons.people),
+            label: languageProvider.text("users"),
           ),
           NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person),
-            label: "Profile",
+            icon: const Icon(Icons.person_outline),
+            selectedIcon: const Icon(Icons.person),
+            label: languageProvider.text("profile"),
           ),
         ],
         onDestinationSelected: (index) {
