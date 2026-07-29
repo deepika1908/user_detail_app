@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'otp_verification_page.dart';
 import 'package:provider/provider.dart';
 import '../providers/language_provider.dart';
-
+import '../core/theme/app_colors.dart';
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -58,241 +58,321 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    return Scaffold(
-      backgroundColor: Colors.deepPurple.shade50,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 25),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 15),
+@override
+Widget build(BuildContext context) {
+  final languageProvider = Provider.of<LanguageProvider>(context);
 
-                Center(
-                  child: Icon(
-                    Icons.person_add_alt_1,
-                    size: 90,
-                    color: Colors.deepPurple,
-                  ),
-                ),
+  return Scaffold(
+    backgroundColor: AppColors.primary,
+    body: SafeArea(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 25,
+        ),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 15),
 
-                const SizedBox(height: 20),
+              _buildHeader(),
 
-                Center(
-                  child: Text(
-                    languageProvider.text("create_account"),
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+              const SizedBox(height: 20),
 
-                const SizedBox(height: 8),
+              _buildTitle(languageProvider),
 
-                Center(
-                  child: Text(
-                    languageProvider.text("fill_details"),
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
+              const SizedBox(height: 8),
 
-                const SizedBox(height: 35),
+              _buildSubtitle(languageProvider),
 
-                const Text(
-                  "First Name",
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 8),
+              const SizedBox(height: 35),
 
-                TextFormField(
-                  controller: firstNameController,
-                  decoration: inputDecoration(
-                    languageProvider.text("enter_first_name"),
-                    Icons.person,
-                  ),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return languageProvider.text("first_name_required");
-                    }
-                    return null;
-                  },
-                ),
+              _buildFirstNameField(languageProvider),
 
-                const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-                Text(
-                  languageProvider.text("last_name"),
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 8),
+              _buildLastNameField(languageProvider),
 
-                TextFormField(
-                  controller: lastNameController,
-                  decoration: inputDecoration(
-                    languageProvider.text("enter_last_name"),
-                    Icons.person_outline,
-                  ),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return languageProvider.text("last_name_required");
-                    }
-                    return null;
-                  },
-                ),
+              const SizedBox(height: 20),
 
-                const SizedBox(height: 20),
+              _buildPhoneField(languageProvider),
 
-                Text(
-                  languageProvider.text("phone_number"),
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 8),
+              const SizedBox(height: 20),
 
-                TextFormField(
-                  controller: phoneController,
-                  keyboardType: TextInputType.phone,
-                  maxLength: 10,
-                  decoration: inputDecoration(
-                    languageProvider.text("enter_phone_number"),
-                    Icons.phone,
-                  ).copyWith(counterText: ""),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return languageProvider.text("phone_number_required");
-                    }
+              _buildEmailField(languageProvider),
 
-                    if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
-                      return languageProvider.text("valid_phone");
-                    }
+              const SizedBox(height: 20),
 
-                    return null;
-                  },
-                ),
+              _buildDobField(languageProvider),
 
-                const SizedBox(height: 20),
+              const SizedBox(height: 35),
 
-                Text(
-                  languageProvider.text("email"),
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 8),
+              _buildRegisterButton(languageProvider),
 
-                TextFormField(
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: inputDecoration(
-                    languageProvider.text("example_email"),
-                    Icons.email_outlined,
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return languageProvider.text("email_required");
-                    }
+              const SizedBox(height: 20),
 
-                    if (!RegExp(
-                      r'^[a-zA-Z0-9._%+-]+@gmail\.com$',
-                    ).hasMatch(value)) {
-                      return languageProvider.text("enter_valid_gmail");
-                    }
+              _buildLoginSection(languageProvider),
 
-                    return null;
-                  },
-                ),
-
-                const SizedBox(height: 20),
-
-                Text(
-                  languageProvider.text("date_of_birth"),
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 8),
-
-                TextFormField(
-                  controller: dobController,
-                  readOnly: true,
-                  onTap: selectDate,
-                  decoration: inputDecoration(
-                    languageProvider.text("select_dob"),
-                    Icons.calendar_today_outlined,
-                    suffixIcon: const Icon(Icons.arrow_drop_down),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return languageProvider.text("dob_required");
-                    }
-                    return null;
-                  },
-                ),
-
-                const SizedBox(height: 35),
-
-                SizedBox(
-                  width: double.infinity,
-                  height: 55,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurple,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) =>
-                                OtpVerificationPage(
-                                  firstName: firstNameController.text,
-                                  lastName: lastNameController.text,
-                                  phone: phoneController.text,
-                                  email: emailController.text,
-                                  dob: dobController.text,
-                                ),
-                          ),
-                        );
-                      }
-                    },
-                    child: const Text(
-                      "Register",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(languageProvider.text("already_have_account")),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(languageProvider.text("login")),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 15),
-              ],
-            ),
+              const SizedBox(height: 15),
+            ],
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
 }
+
+Widget _buildHeader() {
+  return Center(
+    child: Icon(
+      Icons.person_add_alt_1,
+      size: 90,
+      color: AppColors.primary,
+    ),
+  );
+}
+Widget _buildTitle(LanguageProvider languageProvider) {
+  return Center(
+    child: Text(
+      languageProvider.text("create_account"),
+      style: const TextStyle(
+        fontSize: 28,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+  );
+}
+
+Widget _buildSubtitle(LanguageProvider languageProvider) {
+  return Center(
+    child: Text(
+      languageProvider.text("fill_details"),
+      style: const TextStyle(
+        color: AppColors.grey,
+        fontSize: 16,
+      ),
+    ),
+  );
+}
+Widget _buildFirstNameField(
+  LanguageProvider languageProvider,
+) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        languageProvider.text("first_name"),
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+
+      const SizedBox(height: 8),
+
+      TextFormField(
+        controller: firstNameController,
+        decoration: inputDecoration(
+          languageProvider.text("enter_first_name"),
+          Icons.person,
+        ),
+        validator: (value) {
+          if (value == null || value.trim().isEmpty) {
+            return languageProvider.text("first_name_required");
+          }
+          return null;
+        },
+      ),
+    ],
+  );
+}
+
+Widget _buildLastNameField(
+  LanguageProvider languageProvider,
+) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        languageProvider.text("last_name"),
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+
+      const SizedBox(height: 8),
+
+      TextFormField(
+        controller: lastNameController,
+        decoration: inputDecoration(
+          languageProvider.text("enter_last_name"),
+          Icons.person_outline,
+        ),
+        validator: (value) {
+          if (value == null || value.trim().isEmpty) {
+            return languageProvider.text("last_name_required");
+          }
+          return null;
+        },
+      ),
+    ],
+  );
+}
+
+Widget _buildPhoneField(
+  LanguageProvider languageProvider,
+) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        languageProvider.text("phone_number"),
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+
+      const SizedBox(height: 8),
+
+      TextFormField(
+        controller: phoneController,
+        decoration: inputDecoration(
+          languageProvider.text("enter_phone_number"),
+          Icons.phone,
+        ),
+        validator: (value) {
+          if (value == null || value.trim().isEmpty) {
+            return languageProvider.text("phone_number_required");
+          }
+          return null;
+        },
+      ),
+    ],
+  );
+}
+
+Widget _buildEmailField(
+  LanguageProvider languageProvider,
+) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        languageProvider.text("email"),
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+
+      const SizedBox(height: 8),
+
+      TextFormField(
+        controller: emailController,
+        decoration: inputDecoration(
+          languageProvider.text("enter_email"),
+          Icons.email,
+        ),
+        validator: (value) {
+          if (value == null || value.trim().isEmpty) {
+            return languageProvider.text("email_required");
+          }
+          return null;
+        },
+      ),
+    ],
+  );
+}
+
+Widget _buildDobField(
+  LanguageProvider languageProvider,
+) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        languageProvider.text("date_of_birth"),
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+
+      const SizedBox(height: 8),
+
+      TextFormField(
+        controller: dobController,
+        decoration: inputDecoration(
+          languageProvider.text("enter_date_of_birth"),
+          Icons.calendar_today,
+        ),
+        validator: (value) {
+          if (value == null || value.trim().isEmpty) {
+            return languageProvider.text("date_of_birth_required");
+          }
+          return null;
+        },
+      ),
+    ],
+  );
+}
+
+Widget _buildRegisterButton(
+  LanguageProvider languageProvider,
+) {
+  return SizedBox(
+    width: double.infinity,
+    height: 55,
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.primary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+      onPressed: () {
+        if (_formKey.currentState!.validate()) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => OtpVerificationPage(
+                firstName: firstNameController.text,
+                lastName: lastNameController.text,
+                phone: phoneController.text,
+                email: emailController.text,
+                dob: dobController.text,
+              ),
+            ),
+          );
+        }
+      },
+      child: Text(
+        languageProvider.text("register"),
+        style: const TextStyle(
+          color: AppColors.white,
+          fontSize: 18,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _buildLoginSection(
+  LanguageProvider languageProvider,
+) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text(
+        languageProvider.text("already_have_account"),
+      ),
+      TextButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: Text(
+          languageProvider.text("login"),
+        ),
+      ),
+    ],
+  );
+}}
