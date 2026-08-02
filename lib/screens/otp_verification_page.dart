@@ -4,6 +4,8 @@ import 'package:user_detail_app/core/extensions/context_extension.dart';
 import 'dashboard_page.dart ';
 import '../providers/language_provider.dart';
 import '../core/theme/app_colors.dart';
+import '../core/theme/app_button_style.dart';
+import '../core/theme/app_input_decorator.dart';
 
 class OtpVerificationPage extends StatefulWidget {
   final String? firstName;
@@ -148,13 +150,10 @@ Widget _buildOtpField(LanguageProvider languageProvider) {
     controller: otpController,
     keyboardType: TextInputType.number,
     maxLength: 6,
-    decoration: InputDecoration(
+    decoration: AppInputDecoration.textField(
       hintText: languageProvider.text("enter_otp"),
-      prefixIcon: const Icon(Icons.lock_outline),
+      icon: Icons.lock_outline,
       counterText: "",
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
     ),
   );
 }
@@ -164,12 +163,7 @@ Widget _buildVerifyButton(LanguageProvider languageProvider) {
     width: double.infinity,
     height: 55,
     child: ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primary,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
+      style: AppButtonStyle.primary,
       onPressed: _verifyOtp,
       child: Text(
         languageProvider.text("verify_otp"),

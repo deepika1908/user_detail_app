@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'login_page.dart';
 import '../providers/language_provider.dart';
 import '../core/theme/app_colors.dart'; 
+import '../core/theme/app_button_style.dart';
 import '../core/extensions/context_extension.dart';        
 
 
@@ -135,10 +136,7 @@ Widget _buildLogoutButton(
     width: double.infinity,
     height: 45,
     child: ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.red,
-        foregroundColor: AppColors.white,
-      ),
+      style: AppButtonStyle.destructive,
       icon: const Icon(Icons.logout),
       label: Text(
         languageProvider.text("logout"),

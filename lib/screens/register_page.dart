@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../providers/language_provider.dart';
 import '../core/theme/app_colors.dart';
 import '../core/extensions/context_extension.dart';
 import '../core/theme/app_text_styles.dart';
 import '../core/theme/app_input_decorator.dart';
-import '../widgets/custom_button.dart';
+import '../core/theme/app_button_style.dart';
 import 'otp_verification_page.dart';
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -101,19 +100,6 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   } 
-
-  InputDecoration inputDecoration(
-      String hint, IconData icon,
-      {Widget? suffixIcon}) {
-    return InputDecoration(
-      hintText: hint,
-      prefixIcon: Icon(icon),
-      suffixIcon: suffixIcon,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-    );
-  }
 
 @override
 Widget build(BuildContext context) {
@@ -333,12 +319,6 @@ Widget _buildDobField(
 
       const SizedBox(height: 8),
 
-      // TextField(
-      //   controller: dobController,
-      //   decoration: inputDecoration(
-      //     languageProvider.text("enter_date_of_birth"),
-      //     Icons.calendar_today,
-      //   ),
       TextField(
         controller: dobController,
         readOnly: true,

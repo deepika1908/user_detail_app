@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import "../core/theme/app_colors.dart";
+import '../core/theme/app_input_decorator.dart';
 import '../data/user_data.dart';
 import 'user_details_page.dart';
 
@@ -12,6 +13,13 @@ class UsersPage extends StatefulWidget {
 
 class _UsersPageState extends State<UsersPage> {
   String searchText = "";
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +47,12 @@ class _UsersPageState extends State<UsersPage> {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: TextField(
-        decoration: InputDecoration(
+        controller: _searchController,
+        decoration: AppInputDecoration.textField(
           hintText: "Search users...",
-          prefixIcon: const Icon(Icons.search),
+          icon: Icons.search,
           filled: true,
           fillColor: colorScheme.surface,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
         ),
         onChanged: (value) {
           setState(() {
