@@ -7,6 +7,7 @@ const List<User> users = [
     phone: "9876543210",
     education: "B.Tech CSE",
     gender: "Male",
+    dob: "1990-01-01",
   ),
   User(
     name: "User 2",
@@ -14,6 +15,7 @@ const List<User> users = [
     phone: "9876543211",
     education: "BCA",
     gender: "Female",
+    dob: "1992-05-15",
   ),
   User(
     name: "User 3",
@@ -21,6 +23,7 @@ const List<User> users = [
     phone: "9876543212",
     education: "MCA",
     gender: "Male",
+    dob: "1990-01-01",
   ),
   User(
     name: "User 4",
@@ -28,6 +31,7 @@ const List<User> users = [
     phone: "9876543213",
     education: "B.Sc",
     gender: "Female",
+    dob: "1990-01-01",
   ),
   User(
     name: "User 5",
@@ -35,6 +39,7 @@ const List<User> users = [
     phone: "9876543214",
     education: "MBA",
     gender: "Male",
+    dob: "1990-01-01",
   ),
   User(
     name: "User 6",
@@ -42,6 +47,7 @@ const List<User> users = [
     phone: "9876543215",
     education: "B.Com",
     gender: "Female",
+    dob: "1990-01-01",  
   ),
   User(
     name: "User 7",
@@ -49,6 +55,7 @@ const List<User> users = [
     phone: "9876543216",
     education: "B.A",
     gender: "Male",
+    dob: "1990-01-01",
   ),
   User(
     name: "User 8",
@@ -56,6 +63,8 @@ const List<User> users = [
     phone: "9876543215",
     education: "B.Com",
     gender: "Female",
+    dob: "1990-01-01",
+
   ),
   User(
     name: "User 9",
@@ -63,5 +72,6 @@ const List<User> users = [
     phone: "9876543217",
     education: "M.Sc",
     gender: "Male",
+    dob: "1990-01-01",
   ),
 ];

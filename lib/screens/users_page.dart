@@ -34,6 +34,8 @@ class _UsersPageState extends State<UsersPage> {
 
   /// Search Bar
   Widget _buildSearchBar() {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: TextField(
@@ -41,7 +43,7 @@ class _UsersPageState extends State<UsersPage> {
           hintText: "Search users...",
           prefixIcon: const Icon(Icons.search),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: colorScheme.surface,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -67,6 +69,8 @@ class _UsersPageState extends State<UsersPage> {
 
   /// Single User Card
   Widget _buildUserCard(dynamic user) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Card(
       margin: const EdgeInsets.symmetric(
         horizontal: 16,
@@ -78,7 +82,7 @@ class _UsersPageState extends State<UsersPage> {
       ),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: AppColors.white,
+          backgroundColor: colorScheme.surfaceContainerHighest,
           child: Text(
             user.name[0],
             style: const TextStyle(

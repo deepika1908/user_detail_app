@@ -17,7 +17,6 @@ class UserDetailsPage extends StatelessWidget {
     final language = context.language;
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
       appBar: _buildAppBar(language),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),

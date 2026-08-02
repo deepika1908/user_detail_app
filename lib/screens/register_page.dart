@@ -120,7 +120,7 @@ Widget build(BuildContext context) {
   // final languageProvider = Provider.of<LanguageProvider>(context);
 final languageProvider = context.languageWatch;
   return Scaffold(
-    backgroundColor: AppColors.white,
+    // backgroundColor: AppColors.white,
     body: SafeArea(
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(

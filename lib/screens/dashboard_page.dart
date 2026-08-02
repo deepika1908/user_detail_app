@@ -5,8 +5,6 @@ import 'profile_page.dart';
 import '../widgets/settings_dialog.dart';
 import '../providers/language_provider.dart';
 import '../core/theme/app_colors.dart';
-import '../core/constants/app_sizes.dart';
-import '../core/theme/app_text_styles.dart';
 
 class DashboardPage extends StatefulWidget {
   final String firstName;
@@ -37,8 +35,6 @@ Widget build(BuildContext context) {
   final languageProvider = Provider.of<LanguageProvider>(context);
 
   return Scaffold(
-    backgroundColor: AppColors.scaffoldBackground,
-
     appBar: _buildAppBar(languageProvider),
 
     body: _buildBody(languageProvider),

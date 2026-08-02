@@ -4,6 +4,7 @@ class User {
   final String phone;
   final String education;
   final String gender;
+  final String dob;
 
   const User({
     required this.name,
@@ -11,5 +12,6 @@ class User {
     required this.phone,
     required this.education,
     required this.gender,
+    required this.dob,
   });
 }

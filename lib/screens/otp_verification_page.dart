@@ -72,7 +72,7 @@ Widget build(BuildContext context) {
   final languageProvider = Provider.of<LanguageProvider>(context);
 
   return Scaffold(
-    backgroundColor: AppColors.scaffoldBackground,
+    //backgroundColor: AppColors.scaffoldBackground,
     body: SafeArea(
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
@@ -268,17 +268,18 @@ void _showSnackBar(String message) {
   );
 }
 
-void _showInvalidOtp() {
-  final languageProvider =
-      Provider.of<LanguageProvider>(context, listen: false);
+// void _showInvalidOtp() {
+//   final languageProvider =
+//       Provider.of<LanguageProvider>(context, listen: false);
 
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      backgroundColor: Colors.red,
-      content: Text(
-        languageProvider.text("invalid_otp"),
-      ),
-    ),
-  );
-}
+//   ScaffoldMessenger.of(context).showSnackBar(
+//     SnackBar(
+//       backgroundColor: Colors.red,
+//       content: Text(
+//         languageProvider.text("invalid_otp"),
+//       ),
+//     ),
+//   );
+// }
+
 }
