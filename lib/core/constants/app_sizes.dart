@@ -26,7 +26,7 @@ class AppSizes {
 
   // Sizes
   static const double buttonHeight = 55;
-  static const double textFieldRadius = 12;
+  // static const double textFieldRadius = 12;
   static const double avatarRadius = 28;
   static const double logoSize = 90;
 }

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'otp_verification_page.dart';
 import 'package:provider/provider.dart';
 import '../providers/language_provider.dart';
 import '../core/theme/app_colors.dart';
+import '../core/extensions/context_extension.dart';
+import '../core/theme/app_text_styles.dart';
+import '../core/theme/app_input_decorator.dart';
+import '../widgets/custom_button.dart';
+import 'otp_verification_page.dart';
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -11,7 +15,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final _formKey = GlobalKey<FormState>();
+  // final _formKey = GlobalKey<FormState>();
 
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -45,6 +49,59 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
+  bool _validateFields() {
+    // final language = context.languageWatch;
+    final language = context.language;
+
+    if (firstNameController.text.trim().isEmpty) {
+      _showSnackBar(language.text("first_name_required"));
+      return false;
+    }
+
+    if (lastNameController.text.trim().isEmpty) {
+      _showSnackBar(language.text("last_name_required"));
+      return false;
+    }
+
+    if (phoneController.text.trim().isEmpty) {
+      _showSnackBar(language.text("phone_number_required"));
+      return false;
+    }
+
+    if (phoneController.text.length != 10) {
+      _showSnackBar(language.text("invalid_phone_number"));
+      return false;
+    }
+
+    if (emailController.text.trim().isEmpty) {
+      _showSnackBar(language.text("email_required"));
+      return false;
+    }
+
+    if (!emailController.text.contains("@")) {
+      _showSnackBar(language.text("invalid_email"));
+      return false;
+    }
+
+    if (dobController.text.trim().isEmpty) {
+      _showSnackBar(language.text("date_of_birth_required"));
+      return false;
+    }
+
+    return true;
+  }
+
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
+  } 
+
   InputDecoration inputDecoration(
       String hint, IconData icon,
       {Widget? suffixIcon}) {
@@ -60,19 +117,20 @@ class _RegisterPageState extends State<RegisterPage> {
 
 @override
 Widget build(BuildContext context) {
-  final languageProvider = Provider.of<LanguageProvider>(context);
-
+  // final languageProvider = Provider.of<LanguageProvider>(context);
+final languageProvider = context.languageWatch;
   return Scaffold(
-    backgroundColor: AppColors.primary,
+    backgroundColor: AppColors.white,
     body: SafeArea(
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
           horizontal: 24,
           vertical: 25,
         ),
-        child: Form(
-          key: _formKey,
-          child: Column(
+        // child: Form(
+        //   key: _formKey,
+        //   child: Column(
+        child:Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 15),
@@ -120,8 +178,7 @@ Widget build(BuildContext context) {
           ),
         ),
       ),
-    ),
-  );
+    );
 }
 
 Widget _buildHeader() {
@@ -137,11 +194,11 @@ Widget _buildTitle(LanguageProvider languageProvider) {
   return Center(
     child: Text(
       languageProvider.text("create_account"),
-      style: const TextStyle(
-        fontSize: 28,
-        fontWeight: FontWeight.bold,
+      // style: const TextStyle(
+        // fontSize: 28,
+        // fontWeight: FontWeight.bold,
+        style: AppTextStyles.heading,
       ),
-    ),
   );
 }
 
@@ -164,25 +221,19 @@ Widget _buildFirstNameField(
     children: [
       Text(
         languageProvider.text("first_name"),
-        style: const TextStyle(
+        style: AppTextStyles.body.copyWith(
           fontWeight: FontWeight.w600,
         ),
       ),
 
       const SizedBox(height: 8),
 
-      TextFormField(
+      TextField(
         controller: firstNameController,
-        decoration: inputDecoration(
-          languageProvider.text("enter_first_name"),
-          Icons.person,
+        decoration: AppInputDecoration.textField(
+          hintText: languageProvider.text("enter_first_name"),
+          icon: Icons.person,
         ),
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return languageProvider.text("first_name_required");
-          }
-          return null;
-        },
       ),
     ],
   );
@@ -196,25 +247,20 @@ Widget _buildLastNameField(
     children: [
       Text(
         languageProvider.text("last_name"),
-        style: const TextStyle(
+        style: AppTextStyles.body.copyWith(
           fontWeight: FontWeight.w600,
         ),
       ),
 
       const SizedBox(height: 8),
 
-      TextFormField(
+      TextField(
         controller: lastNameController,
-        decoration: inputDecoration(
-          languageProvider.text("enter_last_name"),
-          Icons.person_outline,
+        decoration: AppInputDecoration.textField(
+          hintText: languageProvider.text("enter_last_name"),
+          icon: Icons.person_outline,
         ),
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return languageProvider.text("last_name_required");
-          }
-          return null;
-        },
+        
       ),
     ],
   );
@@ -228,25 +274,19 @@ Widget _buildPhoneField(
     children: [
       Text(
         languageProvider.text("phone_number"),
-        style: const TextStyle(
+        style: AppTextStyles.body.copyWith(
           fontWeight: FontWeight.w600,
         ),
       ),
 
       const SizedBox(height: 8),
 
-      TextFormField(
+      TextField(
         controller: phoneController,
-        decoration: inputDecoration(
-          languageProvider.text("enter_phone_number"),
-          Icons.phone,
+        decoration: AppInputDecoration.textField(
+          hintText: languageProvider.text("enter_phone_number"),
+          icon: Icons.phone,
         ),
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return languageProvider.text("phone_number_required");
-          }
-          return null;
-        },
       ),
     ],
   );
@@ -260,25 +300,19 @@ Widget _buildEmailField(
     children: [
       Text(
         languageProvider.text("email"),
-        style: const TextStyle(
+        style: AppTextStyles.body.copyWith(
           fontWeight: FontWeight.w600,
         ),
       ),
 
       const SizedBox(height: 8),
 
-      TextFormField(
+      TextField(
         controller: emailController,
-        decoration: inputDecoration(
-          languageProvider.text("enter_email"),
-          Icons.email,
+        decoration: AppInputDecoration.textField(
+          hintText: languageProvider.text("enter_email"),
+          icon: Icons.email,
         ),
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return languageProvider.text("email_required");
-          }
-          return null;
-        },
       ),
     ],
   );
@@ -292,26 +326,28 @@ Widget _buildDobField(
     children: [
       Text(
         languageProvider.text("date_of_birth"),
-        style: const TextStyle(
+        style: AppTextStyles.body.copyWith(
           fontWeight: FontWeight.w600,
         ),
       ),
 
       const SizedBox(height: 8),
 
-      TextFormField(
+      // TextField(
+      //   controller: dobController,
+      //   decoration: inputDecoration(
+      //     languageProvider.text("enter_date_of_birth"),
+      //     Icons.calendar_today,
+      //   ),
+      TextField(
         controller: dobController,
-        decoration: inputDecoration(
-          languageProvider.text("enter_date_of_birth"),
-          Icons.calendar_today,
+        readOnly: true,
+        onTap: selectDate,
+        decoration: AppInputDecoration.textField(
+          hintText: languageProvider.text("enter_date_of_birth"),
+          icon: Icons.calendar_today,
         ),
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return languageProvider.text("date_of_birth_required");
-          }
-          return null;
-        },
-      ),
+      )
     ],
   );
 }
@@ -323,37 +359,54 @@ Widget _buildRegisterButton(
     width: double.infinity,
     height: 55,
     child: ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primary,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
+      // style: ElevatedButton.styleFrom(
+      //   backgroundColor: AppColors.primary,
+      //   shape: RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.circular(12),
+      //   ),
+      // ),
+      style: AppButtonStyle.primary,
+      // onPressed: () {
+      //   if (_formKey.currentState!.validate()) {
+      //     Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //         builder: (_) => OtpVerificationPage(
+      //           firstName: firstNameController.text,
+      //           lastName: lastNameController.text,
+      //           phone: phoneController.text,
+      //           email: emailController.text,
+      //           dob: dobController.text,
+      //         ),
+      //       ),
+      //     );
+      //   }
+      // },
       onPressed: () {
-        if (_formKey.currentState!.validate()) {
+          if (!_validateFields()) return;
+
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (_) => OtpVerificationPage(
-                firstName: firstNameController.text,
-                lastName: lastNameController.text,
-                phone: phoneController.text,
-                email: emailController.text,
-                dob: dobController.text,
+                firstName: firstNameController.text.trim(),
+                lastName: lastNameController.text.trim(),
+                phone: phoneController.text.trim(),
+                email: emailController.text.trim(),
+                dob: dobController.text.trim(),
               ),
             ),
           );
-        }
-      },
+        },
       child: Text(
         languageProvider.text("register"),
-        style: const TextStyle(
-          color: AppColors.white,
-          fontSize: 18,
+        // style: const TextStyle(
+        //   color: AppColors.white,
+        //   fontSize: 18,
+        style: AppTextStyles.button,
         ),
       ),
-    ),
-  );
+    );
 }
 
 Widget _buildLoginSection(

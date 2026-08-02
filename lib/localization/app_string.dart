@@ -61,6 +61,12 @@ class AppStrings{
       "name": "Name",
       "education": "Education",
       "gender": "Gender",
+      "password": "Password",
+      "password_required": "Password is required",
+      "password_length": "Password must be at least 6 characters long",
+      "Enter Password": "Enter Password",
+      "enter_date_of_birth": "Enter Date of Birth",
+      // "user_management": "User Management"
     },
 
     "ar":{
@@ -124,6 +130,12 @@ class AppStrings{
       "name": "الاسم",
       "education": "التعليم",
       "gender": "الجنس",
+      "password": "كلمة المرور",
+      "password_required": "كلمة المرور مطلوبة",
+      "password_length": "يجب أن تكون كلمة المرور مكونة من 6 أحرف على الأقل",
+      "Enter Password": "أدخل كلمة المرور",
+      // "user_management": "إدارة المستخدمين"
+      "enter_date_of_birth": "أدخل تاريخ الميلاد",
       }
   };
 }

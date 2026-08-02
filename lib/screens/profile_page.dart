@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'login_page.dart';
 import '../providers/language_provider.dart';
-import '../core/theme/app_colors.dart';         
+import '../core/theme/app_colors.dart'; 
+import '../core/extensions/context_extension.dart';        
 
 
 class ProfilePage extends StatelessWidget {
@@ -46,7 +46,9 @@ class ProfilePage extends StatelessWidget {
 
 @override
 Widget build(BuildContext context) {
-  final languageProvider = Provider.of<LanguageProvider>(context);
+  //final languageProvider = Provider.of<LanguageProvider>(context);
+  final language =context.language;
+
 
   return SingleChildScrollView(
     padding: const EdgeInsets.all(20),
@@ -64,11 +66,11 @@ Widget build(BuildContext context) {
 
             const SizedBox(height: 25),
 
-            _buildProfileDetails(languageProvider),
+            _buildProfileDetails(language),
 
             const SizedBox(height: 35),
 
-            _buildLogoutButton(context, languageProvider),
+            _buildLogoutButton(context, language),
           ],
         ),
       ),

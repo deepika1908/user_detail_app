@@ -1,59 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:user_detail_app/core/extensions/context_extension.dart';
 import 'dashboard_page.dart ';
 import '../providers/language_provider.dart';
 import '../core/theme/app_colors.dart';
 
 class OtpVerificationPage extends StatefulWidget {
-  final String firstName;
-  final String lastName;
-  final String phone;
+  final String? firstName;
+  final String? lastName;
+  final String? phone;
   final String email;
-  final String dob;
+  final String? dob;
 
   const OtpVerificationPage({
     super.key,
-    required this.firstName,
-    required this.lastName,
-    required this.phone,
+    this.firstName,
+    this.lastName,
+    this.phone,
     required this.email,
-    required this.dob,
+    this.dob,
   });
 
   @override
   State<OtpVerificationPage> createState() => _OtpVerificationPageState();
 }
 
-class _OtpVerificationPageState extends State<OtpVerificationPage> {
-  final _formKey = GlobalKey<FormState>();
-  final otpController = TextEditingController();
+ class _OtpVerificationPageState extends State<OtpVerificationPage> {
+final TextEditingController otpController = TextEditingController();
 
-  // Dummy OTP
-  final String savedOtp = "123456";
-  void verifyOtp() {
-  if (_formKey.currentState!.validate()) {
-    if (otpController.text == savedOtp) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (_) => DashboardPage(
-            firstName: widget.firstName,
-            lastName: widget.lastName,
-            phone: widget.phone,
-            email: widget.email,
-            dob: widget.dob,
-          ),
+// Dummy OTP
+final String savedOtp = "123456";
+
+void verifyOtp() {
+  if (otpController.text.trim().isEmpty) {
+    _showSnackBar("OTP is required");
+    return;
+  }
+
+  if (!RegExp(r'^\d{6}$').hasMatch(otpController.text.trim())) {
+    _showSnackBar("Invalid OTP");
+    return;
+  }
+
+  if (otpController.text.trim() == savedOtp) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (_) => DashboardPage(
+          firstName: widget.firstName ?? "",
+          lastName: widget.lastName ?? "",
+          phone: widget.phone ?? "",
+          email: widget.email,
+          dob: widget.dob ?? "",
         ),
-        (route) => false,
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Invalid OTP"),
-          backgroundColor: AppColors.red,
-        ),
-      );
-    }
+      ),
+      (route) => false,
+    );
+  } else {
+    _showSnackBar("Invalid OTP");
   }
 }
 
@@ -75,8 +79,8 @@ Widget build(BuildContext context) {
           horizontal: 24,
           vertical: 30,
         ),
-        child: Form(
-          key: _formKey,
+        //child: Form(
+          //key: _formKey,
           child: Column(
             children: [
               const SizedBox(height: 40),
@@ -102,8 +106,7 @@ Widget build(BuildContext context) {
           ),
         ),
       ),
-    ),
-  );
+    );
 }
 
 Widget _buildHeader(LanguageProvider languageProvider) {
@@ -139,8 +142,9 @@ Widget _buildHeader(LanguageProvider languageProvider) {
   );
 }
 
+
 Widget _buildOtpField(LanguageProvider languageProvider) {
-  return TextFormField(
+  return TextField(
     controller: otpController,
     keyboardType: TextInputType.number,
     maxLength: 6,
@@ -152,17 +156,6 @@ Widget _buildOtpField(LanguageProvider languageProvider) {
         borderRadius: BorderRadius.circular(12),
       ),
     ),
-    validator: (value) {
-      if (value == null || value.isEmpty) {
-        return languageProvider.text("otp_required");
-      }
-
-      if (!RegExp(r'^\d{6}$').hasMatch(value)) {
-        return languageProvider.text("invalid_otp");
-      }
-
-      return null;
-    },
   );
 }
 
@@ -227,25 +220,52 @@ Widget _buildDemoOtp(LanguageProvider languageProvider) {
 }
 
 void _verifyOtp() {
-  if (!_formKey.currentState!.validate()) return;
+  final language = context.language;
 
-  if (otpController.text == savedOtp) {
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (_) => DashboardPage(
-          firstName: widget.firstName,
-          lastName: widget.lastName,
-          phone: widget.phone,
-          email: widget.email,
-          dob: widget.dob,
-        ),
-      ),
-      (route) => false,
+  if (otpController.text.trim().isEmpty) {
+    _showSnackBar(
+      language.text("otp_required"),
     );
-  } else {
-    _showInvalidOtp();
+    return;
   }
+
+  if (!RegExp(r'^\d{6}$').hasMatch(otpController.text.trim())) {
+    _showSnackBar(
+      language.text("invalid_otp"),
+    );
+    return;
+  }
+
+  if (otpController.text.trim() != savedOtp) {
+    _showSnackBar(
+      language.text("invalid_otp"),
+    );
+    return;
+  }
+
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(
+      builder: (_) => DashboardPage(
+        firstName: widget.firstName ?? "",
+        lastName: widget.lastName ?? "",
+        phone: widget.phone ?? "",
+        email: widget.email,
+        dob: widget.dob ?? "",
+      ),
+    ),
+    (route) => false,
+  );
+}
+
+void _showSnackBar(String message) {
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+    ),
+  );
 }
 
 void _showInvalidOtp() {
@@ -260,4 +280,5 @@ void _showInvalidOtp() {
       ),
     ),
   );
-}}
+}
+}

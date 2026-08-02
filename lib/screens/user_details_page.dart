@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../core/theme/app_colors.dart';
 import '../models/user.dart';
 import '../providers/language_provider.dart';
+import '../core/extensions/context_extension.dart';
 
 class UserDetailsPage extends StatelessWidget {
   final User user;
@@ -14,11 +14,11 @@ class UserDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final languageProvider = Provider.of<LanguageProvider>(context);
+    final language = context.language;
 
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-      appBar: _buildAppBar(languageProvider),
+      appBar: _buildAppBar(language),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -31,7 +31,7 @@ class UserDetailsPage extends StatelessWidget {
 
             const SizedBox(height: 30),
 
-            _buildUserDetails(languageProvider),
+            _buildUserDetails(language),
           ],
         ),
       ),
@@ -109,8 +109,20 @@ class UserDetailsPage extends StatelessWidget {
           languageProvider.text("gender"),
           user.gender,
         ),
+
+        _buildDetailTile(
+          Icons.cake,
+          languageProvider.text("date_of_birth"),
+          _getDateOfBirth(),
+        ),
       ],
     );
+  }
+
+  String _getDateOfBirth() {
+    final dynamic userData = user;
+    final value = userData.dob;
+    return value?.toString() ?? '';
   }
 
   //Detail Tile
