@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import "../core/theme/app_colors.dart";
 import '../core/theme/app_input_decorator.dart';
-import '../data/user_data.dart';
+import '../core/service/api_service.dart';
+import '../models/user.dart';
 import 'user_details_page.dart';
 
 class UsersPage extends StatefulWidget {
@@ -14,6 +15,14 @@ class UsersPage extends StatefulWidget {
 class _UsersPageState extends State<UsersPage> {
   String searchText = "";
   final TextEditingController _searchController = TextEditingController();
+  final ApiService _apiService = ApiService();
+  late Future<List<User>> _usersFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _usersFuture = _apiService.fetchUsers();
+  }
 
   @override
   void dispose() {
@@ -23,18 +32,30 @@ class _UsersPageState extends State<UsersPage> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredUsers = users.where((user) {
-      return user.name
-          .toLowerCase()
-          .contains(searchText.toLowerCase());
-    }).toList();
-
     return Column(
       children: [
         _buildSearchBar(),
-
         Expanded(
-          child: _buildUsersList(filteredUsers),
+          child: FutureBuilder<List<User>>(
+            future: _usersFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              }
+
+              final users = snapshot.data ?? [];
+              final filteredUsers = users.where((user) {
+                final name = '${user.firstName} ${user.lastName}';
+                return name.toLowerCase().contains(searchText.toLowerCase());
+              }).toList();
+
+              return _buildUsersList(filteredUsers);
+            },
+          ),
         ),
       ],
     );
@@ -64,7 +85,7 @@ class _UsersPageState extends State<UsersPage> {
   }
 
   /// Users List
-  Widget _buildUsersList(List<dynamic> filteredUsers) {
+  Widget _buildUsersList(List<User> filteredUsers) {
     return ListView.builder(
       itemCount: filteredUsers.length,
       itemBuilder: (context, index) {
@@ -74,7 +95,7 @@ class _UsersPageState extends State<UsersPage> {
   }
 
   /// Single User Card
-  Widget _buildUserCard(dynamic user) {
+  Widget _buildUserCard(User user) {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Card(
@@ -90,7 +111,7 @@ class _UsersPageState extends State<UsersPage> {
         leading: CircleAvatar(
           backgroundColor: colorScheme.surfaceContainerHighest,
           child: Text(
-            user.name[0],
+            user.firstName[0],
             style: const TextStyle(
               color: AppColors.primary,
               fontWeight: FontWeight.bold,
@@ -98,7 +119,7 @@ class _UsersPageState extends State<UsersPage> {
           ),
         ),
         title: Text(
-          user.name,
+          '${user.firstName} ${user.lastName}',
           style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 16,

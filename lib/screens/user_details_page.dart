@@ -54,7 +54,7 @@ class UserDetailsPage extends StatelessWidget {
       radius: 50,
       backgroundColor:AppColors.white,
       child: Text(
-        user.name[0],
+        user.firstName[0],
         style: const TextStyle(
           fontSize: 36,
           color: AppColors.primary,
@@ -67,7 +67,7 @@ class UserDetailsPage extends StatelessWidget {
   //User Name
   Widget _buildUserName() {
     return Text(
-      user.name,
+      '${user.firstName} ${user.lastName}',
       style: const TextStyle(
         fontSize: 26,
         fontWeight: FontWeight.bold,
@@ -81,8 +81,14 @@ class UserDetailsPage extends StatelessWidget {
       children: [
         _buildDetailTile(
           Icons.person,
-          languageProvider.text("name"),
-          user.name,
+          'First name',
+          user.firstName,
+        ),
+
+        _buildDetailTile(
+          Icons.person,
+          'Last name',
+          user.lastName,
         ),
 
         _buildDetailTile(
@@ -97,31 +103,8 @@ class UserDetailsPage extends StatelessWidget {
           user.phone,
         ),
 
-        _buildDetailTile(
-          Icons.school,
-          languageProvider.text("education"),
-          user.education,
-        ),
-
-        _buildDetailTile(
-          Icons.people,
-          languageProvider.text("gender"),
-          user.gender,
-        ),
-
-        _buildDetailTile(
-          Icons.cake,
-          languageProvider.text("date_of_birth"),
-          _getDateOfBirth(),
-        ),
       ],
     );
-  }
-
-  String _getDateOfBirth() {
-    final dynamic userData = user;
-    final value = userData.dob;
-    return value?.toString() ?? '';
   }
 
   //Detail Tile
