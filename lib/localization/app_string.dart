@@ -1,5 +1,23 @@
-class AppStrings{
-  static Map<String, Map<String,String>> value={
+class AppStringKeys {
+  AppStringKeys._();
+
+  static const welcome = 'welcome';
+  static const email = 'email';
+  static const password = 'password';
+  static const enterPassword = 'Enter Password';
+  static const login = 'login';
+  static const register = 'register';
+  static const userManagement = 'user_management';
+  static const otpRequired = 'otp_required';
+  static const invalidOtp = 'invalid_otp';
+  static const searchUsers = 'search_users';
+  static const error = 'error';
+}
+
+class AppStrings {
+  AppStrings._();
+
+  static const Map<String, Map<String, String>> value = {
     "en":{
       "Welcome":"Welcome",
       "first_name":"First Name",
@@ -66,6 +84,8 @@ class AppStrings{
       "password_length": "Password must be at least 6 characters long",
       "Enter Password": "Enter Password",
       "enter_date_of_birth": "Enter Date of Birth",
+      "search_users": "Search users...",
+      "error": "Error",
       // "user_management": "User Management"
     },
 
