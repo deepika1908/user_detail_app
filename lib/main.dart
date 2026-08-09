@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'screens/login_page.dart';
 import 'core/theme/app_theme.dart';
+import 'core/routes/app_routes.dart';
+import 'localization/app_string.dart';
 import 'providers/theme_provider.dart';
 import 'providers/language_provider.dart';
 
@@ -32,26 +33,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      title: languageProvider.text("user_management"),
+      title: languageProvider.text(AppStringKeys.userManagement),
 
       themeMode: themeProvider.themeMode,
-      //Base class Theme
-      // theme: ThemeData(
-      //   useMaterial3: true,
-      //   brightness: Brightness.light,
-      //   colorSchemeSeed: Colors.deepPurple,
-      // ),
-      // darkTheme: ThemeData(
-      //   useMaterial3: true,
-      //   brightness: Brightness.dark,
-      //   colorSchemeSeed: Colors.deepPurple,
-      // ),
-
-      //custom theme
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
 
-      home: const LoginPage(),
+      initialRoute: AppRoutes.login,
+      onGenerateRoute: AppRoutes.onGenerateRoute,
     );
   }
 }
