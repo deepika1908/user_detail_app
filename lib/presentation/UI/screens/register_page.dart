@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../providers/language_provider.dart';
-import '../core/theme/app_colors.dart';
-import '../core/extensions/context_extension.dart';
-import '../core/theme/app_text_styles.dart';
-import '../core/theme/app_input_decorator.dart';
-import '../core/theme/app_button_style.dart';
-import 'otp_verification_page.dart';
+import '../../../providers/language_provider.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/extensions/context_extension.dart';
+import '../../../core/theme/app_text_styles.dart';
+import '../../../core/theme/app_input_decorator.dart';
+import '../../../core/theme/app_button_style.dart';
+import '../../../core/routes/app_routes.dart';
+import '../../../core/styles/screen_text_styles.dart';
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -14,7 +15,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  // final _formKey = GlobalKey<FormState>();
 
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -49,8 +49,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   bool _validateFields() {
-    // final language = context.languageWatch;
-    final language = context.language;
+    final language = AppContext(context).language;
 
     if (firstNameController.text.trim().isEmpty) {
       _showSnackBar(language.text("first_name_required"));
@@ -104,7 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
 @override
 Widget build(BuildContext context) {
   // final languageProvider = Provider.of<LanguageProvider>(context);
-final languageProvider = context.languageWatch;
+final languageProvider = AppContext(context).languageWatch;
   return Scaffold(
     // backgroundColor: AppColors.white,
     body: SafeArea(
@@ -113,9 +112,6 @@ final languageProvider = context.languageWatch;
           horizontal: 24,
           vertical: 25,
         ),
-        // child: Form(
-        //   key: _formKey,
-        //   child: Column(
         child:Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -180,10 +176,7 @@ Widget _buildTitle(LanguageProvider languageProvider) {
   return Center(
     child: Text(
       languageProvider.text("create_account"),
-      // style: const TextStyle(
-        // fontSize: 28,
-        // fontWeight: FontWeight.bold,
-        style: AppTextStyles.heading,
+      style: AppTextStyles.heading,
       ),
   );
 }
@@ -192,10 +185,7 @@ Widget _buildSubtitle(LanguageProvider languageProvider) {
   return Center(
     child: Text(
       languageProvider.text("fill_details"),
-      style: const TextStyle(
-        color: AppColors.grey,
-        fontSize: 16,
-      ),
+      style: ScreenTextStyles.subtitle,
     ),
   );
 }
@@ -339,50 +329,24 @@ Widget _buildRegisterButton(
     width: double.infinity,
     height: 55,
     child: ElevatedButton(
-      // style: ElevatedButton.styleFrom(
-      //   backgroundColor: AppColors.primary,
-      //   shape: RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.circular(12),
-      //   ),
-      // ),
       style: AppButtonStyle.primary,
-      // onPressed: () {
-      //   if (_formKey.currentState!.validate()) {
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //         builder: (_) => OtpVerificationPage(
-      //           firstName: firstNameController.text,
-      //           lastName: lastNameController.text,
-      //           phone: phoneController.text,
-      //           email: emailController.text,
-      //           dob: dobController.text,
-      //         ),
-      //       ),
-      //     );
-      //   }
-      // },
       onPressed: () {
           if (!_validateFields()) return;
 
-          Navigator.push(
+          Navigator.pushNamed(
             context,
-            MaterialPageRoute(
-              builder: (_) => OtpVerificationPage(
-                firstName: firstNameController.text.trim(),
-                lastName: lastNameController.text.trim(),
-                phone: phoneController.text.trim(),
-                email: emailController.text.trim(),
-                dob: dobController.text.trim(),
-              ),
+            AppRoutes.otpVerification,
+            arguments: OtpRouteArguments(
+              firstName: firstNameController.text.trim(),
+              lastName: lastNameController.text.trim(),
+              phone: phoneController.text.trim(),
+              email: emailController.text.trim(),
+              dob: dobController.text.trim(),
             ),
           );
         },
       child: Text(
         languageProvider.text("register"),
-        // style: const TextStyle(
-        //   color: AppColors.white,
-        //   fontSize: 18,
         style: AppTextStyles.button,
         ),
       ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'login_page.dart';
-import '../providers/language_provider.dart';
-import '../core/theme/app_colors.dart'; 
-import '../core/theme/app_button_style.dart';
-import '../core/extensions/context_extension.dart';        
+import '../../../core/routes/app_routes.dart';
+import '../../../providers/language_provider.dart';
+import '../../../core/theme/app_button_style.dart';
+import '../../../core/extensions/context_extension.dart';
+import '../../../core/styles/screen_text_styles.dart';
 
 
 class ProfilePage extends StatelessWidget {
@@ -31,9 +31,7 @@ class ProfilePage extends StatelessWidget {
             width: 120,
             child: Text(
               title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+              style: ScreenTextStyles.detailLabel,
             ),
           ),
           Expanded(
@@ -48,7 +46,7 @@ class ProfilePage extends StatelessWidget {
 @override
 Widget build(BuildContext context) {
   //final languageProvider = Provider.of<LanguageProvider>(context);
-  final language =context.language;
+  final language = AppContext(context).language;
 
 
   return SingleChildScrollView(
@@ -90,10 +88,7 @@ Widget _buildProfileAvatar() {
 }Widget _buildUserName() {
   return Text(
     "$firstName $lastName",
-    style: const TextStyle(
-      fontSize: 24,
-      fontWeight: FontWeight.bold,
-    ),
+    style: ScreenTextStyles.profileName,
   );
 }
 
@@ -142,11 +137,9 @@ Widget _buildLogoutButton(
         languageProvider.text("logout"),
       ),
       onPressed: () {
-        Navigator.pushAndRemoveUntil(
+        Navigator.pushNamedAndRemoveUntil(
           context,
-          MaterialPageRoute(
-            builder: (_) => const LoginPage(),
-          ),
+          AppRoutes.login,
           (route) => false,
         );
       },

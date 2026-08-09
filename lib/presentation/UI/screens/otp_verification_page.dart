@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_detail_app/core/extensions/context_extension.dart';
-import 'dashboard_page.dart ';
-import '../providers/language_provider.dart';
-import '../core/theme/app_colors.dart';
-import '../core/theme/app_button_style.dart';
-import '../core/theme/app_input_decorator.dart';
+import '../../../core/routes/app_routes.dart';
+import '../../../providers/language_provider.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_button_style.dart';
+import '../../../core/theme/app_input_decorator.dart';
+import '../../../core/styles/screen_text_styles.dart';
+import '../../../localization/app_string.dart';
 
 class OtpVerificationPage extends StatefulWidget {
   final String? firstName;
@@ -45,18 +47,17 @@ void verifyOtp() {
   }
 
   if (otpController.text.trim() == savedOtp) {
-    Navigator.pushAndRemoveUntil(
+    Navigator.pushNamedAndRemoveUntil(
       context,
-      MaterialPageRoute(
-        builder: (_) => DashboardPage(
-          firstName: widget.firstName ?? "",
-          lastName: widget.lastName ?? "",
-          phone: widget.phone ?? "",
-          email: widget.email,
-          dob: widget.dob ?? "",
-        ),
-      ),
+      AppRoutes.dashboard,
       (route) => false,
+      arguments: DashboardRouteArguments(
+        firstName: widget.firstName ?? '',
+        lastName: widget.lastName ?? '',
+        phone: widget.phone ?? '',
+        email: widget.email,
+        dob: widget.dob ?? '',
+      ),
     );
   } else {
     _showSnackBar("Invalid OTP");
@@ -124,10 +125,7 @@ Widget _buildHeader(LanguageProvider languageProvider) {
 
       Text(
         languageProvider.text("otp_verification"),
-        style: const TextStyle(
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-        ),
+        style: ScreenTextStyles.userName.copyWith(fontSize: 28),
       ),
 
       const SizedBox(height: 10),
@@ -135,10 +133,7 @@ Widget _buildHeader(LanguageProvider languageProvider) {
       Text(
         languageProvider.text("enter_6_digit_otp"),
         textAlign: TextAlign.center,
-        style: TextStyle(
-          color: AppColors.grey,
-          fontSize: 16,
-        ),
+        style: ScreenTextStyles.subtitle,
       ),
     ],
   );
@@ -167,10 +162,7 @@ Widget _buildVerifyButton(LanguageProvider languageProvider) {
       onPressed: _verifyOtp,
       child: Text(
         languageProvider.text("verify_otp"),
-        style: const TextStyle(
-          color: AppColors.white,
-          fontSize: 18,
-        ),
+        style: ScreenTextStyles.welcomeSubtitle.copyWith(fontSize: 18),
       ),
     ),
   );
@@ -189,9 +181,7 @@ Widget _buildResendButton(LanguageProvider languageProvider) {
     },
     child: Text(
       languageProvider.text("resend_otp"),
-      style: const TextStyle(
-        fontSize: 16,
-      ),
+      style: ScreenTextStyles.body,
     ),
   );
 }
@@ -205,50 +195,46 @@ Widget _buildDemoOtp(LanguageProvider languageProvider) {
     ),
     child: Text(
       languageProvider.text("demo_otp"),
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
-        color: AppColors.scaffoldBackground,
-      ),
+      style: ScreenTextStyles.detailLabel.copyWith(color: AppColors.scaffoldBackground),
     ),
   );
 }
 
 void _verifyOtp() {
-  final language = context.language;
+  final language = AppContext(context).language;
 
   if (otpController.text.trim().isEmpty) {
     _showSnackBar(
-      language.text("otp_required"),
+      language.text(AppStringKeys.otpRequired),
     );
     return;
   }
 
   if (!RegExp(r'^\d{6}$').hasMatch(otpController.text.trim())) {
     _showSnackBar(
-      language.text("invalid_otp"),
+      language.text(AppStringKeys.invalidOtp),
     );
     return;
   }
 
   if (otpController.text.trim() != savedOtp) {
     _showSnackBar(
-      language.text("invalid_otp"),
+      language.text(AppStringKeys.invalidOtp),
     );
     return;
   }
 
-  Navigator.pushAndRemoveUntil(
+  Navigator.pushNamedAndRemoveUntil(
     context,
-    MaterialPageRoute(
-      builder: (_) => DashboardPage(
-        firstName: widget.firstName ?? "",
-        lastName: widget.lastName ?? "",
-        phone: widget.phone ?? "",
-        email: widget.email,
-        dob: widget.dob ?? "",
-      ),
-    ),
+    AppRoutes.dashboard,
     (route) => false,
+    arguments: DashboardRouteArguments(
+      firstName: widget.firstName ?? '',
+      lastName: widget.lastName ?? '',
+      phone: widget.phone ?? '',
+      email: widget.email,
+      dob: widget.dob ?? '',
+    ),
   );
 }
 

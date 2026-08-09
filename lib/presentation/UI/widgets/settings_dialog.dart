@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../providers/theme_provider.dart';
-import '../providers/language_provider.dart';
+import '../../../providers/theme_provider.dart';
+import '../../../providers/language_provider.dart';
+import '../../../core/styles/screen_text_styles.dart';
+import '../../../core/constants/app_icons.dart';
 
 class SettingsDialog extends StatelessWidget {
   const SettingsDialog({super.key});
@@ -42,13 +43,11 @@ class SettingsDialog extends StatelessWidget {
   Widget _buildHeader(LanguageProvider languageProvider) {
     return Row(
       children: [
-        const Icon(Icons.settings),
+        const Icon(AppIcons.settings),
         const SizedBox(width: 10),
         Text(
           languageProvider.text("settings"),
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          style: ScreenTextStyles.appBarTitle,
         ),
       ],
     );
@@ -59,31 +58,23 @@ class SettingsDialog extends StatelessWidget {
     ThemeProvider themeProvider,
     LanguageProvider languageProvider,
   ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          languageProvider.text("theme"),
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+    return RadioGroup<bool>(
+      groupValue: themeProvider.isDarkMode,
+      onChanged: (value) {
+        if (value != null) themeProvider.changeThemeMode(value);
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            languageProvider.text("theme"),
+            style: ScreenTextStyles.sectionTitle,
           ),
-        ),
-
-        const SizedBox(height: 10),
-
-        _buildThemeTile(
-          title: languageProvider.text("light"),
-          value: false,
-          provider: themeProvider,
-        ),
-
-        _buildThemeTile(
-          title: languageProvider.text("dark"),
-          value: true,
-          provider: themeProvider,
-        ),
-      ],
+          const SizedBox(height: 10),
+          _buildThemeTile(title: languageProvider.text("light"), value: false),
+          _buildThemeTile(title: languageProvider.text("dark"), value: true),
+        ],
+      ),
     );
   }
 
@@ -91,17 +82,10 @@ class SettingsDialog extends StatelessWidget {
   Widget _buildThemeTile({
     required String title,
     required bool value,
-    required ThemeProvider provider,
   }) {
     return RadioListTile<bool>(
       title: Text(title),
       value: value,
-      groupValue: provider.isDarkMode,
-      onChanged: (value) {
-        if (value != null) {
-          provider.changeThemeMode(value);
-        }
-      },
     );
   }
 
@@ -109,31 +93,23 @@ class SettingsDialog extends StatelessWidget {
   Widget _buildLanguageSection(
     LanguageProvider languageProvider,
   ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          languageProvider.text("language"),
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+    return RadioGroup<String>(
+      groupValue: languageProvider.currentLang,
+      onChanged: (value) {
+        if (value != null) languageProvider.changelang(value);
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            languageProvider.text("language"),
+            style: ScreenTextStyles.sectionTitle,
           ),
-        ),
-
-        const SizedBox(height: 10),
-
-        _buildLanguageTile(
-          title: languageProvider.text("english"),
-          languageCode: "en",
-          provider: languageProvider,
-        ),
-
-        _buildLanguageTile(
-          title: languageProvider.text("arabic"),
-          languageCode: "ar",
-          provider: languageProvider,
-        ),
-      ],
+          const SizedBox(height: 10),
+          _buildLanguageTile(title: languageProvider.text("english"), languageCode: "en"),
+          _buildLanguageTile(title: languageProvider.text("arabic"), languageCode: "ar"),
+        ],
+      ),
     );
   }
 
@@ -141,17 +117,10 @@ class SettingsDialog extends StatelessWidget {
   Widget _buildLanguageTile({
     required String title,
     required String languageCode,
-    required LanguageProvider provider,
   }) {
     return RadioListTile<String>(
       title: Text(title),
       value: languageCode,
-      groupValue: provider.currentLang,
-      onChanged: (value) {
-        if (value != null) {
-          provider.changelang(value);
-        }
-      },
     );
   }
 

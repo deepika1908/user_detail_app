@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../core/extensions/context_extension.dart';
-import '../providers/language_provider.dart';
-import 'register_page.dart';
-import 'otp_verification_page.dart';
-import '../core/theme/app_colors.dart';
-import '../core/constants/app_sizes.dart';
-import '../core/theme/app_text_styles.dart';
-import '../core/theme/app_input_decorator.dart';
-import '../core/theme/app_button_style.dart';
-import '../core/service/auth_service.dart';
+import '../../../core/extensions/context_extension.dart';
+import '../../../providers/language_provider.dart';
+import '../../../core/routes/app_routes.dart';
+import '../../../localization/app_string.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/constants/app_sizes.dart';
+import '../../../core/theme/app_text_styles.dart';
+import '../../../core/theme/app_input_decorator.dart';
+import '../../../core/theme/app_button_style.dart';
+import '../../../core/service/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   bool _validateFields() {
-     final language = context.language;
+     final language = AppContext(context).language;
 
     if (_emailController.text.trim().isEmpty) {
       _showSnackBar(
@@ -184,7 +184,7 @@ void _showSnackBar(String message) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          languageProvider.text("email"),
+          languageProvider.text(AppStringKeys.email),
         ),
 
         const SizedBox(
@@ -210,7 +210,7 @@ void _showSnackBar(String message) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
-        languageProvider.text("password"),
+        languageProvider.text(AppStringKeys.password),
       ),
 
       const SizedBox(
@@ -221,7 +221,7 @@ void _showSnackBar(String message) {
         controller: _passwordController,
         obscureText: true,
         decoration: AppInputDecoration.textField(
-          hintText: languageProvider.text("Enter Password"),
+          hintText: languageProvider.text(AppStringKeys.enterPassword),
           icon: Icons.lock_outline,
         ),
       ),
@@ -244,22 +244,19 @@ void _showSnackBar(String message) {
 
         if (!isValidUser) {
           _showSnackBar(
-            context.language.text("invalid_credentials"),
+            AppContext(context).language.text("invalid_credentials"),
           );
           return;
         }
 
-        Navigator.push(
+        Navigator.pushNamed(
           context,
-          MaterialPageRoute(
-            builder: (_) => OtpVerificationPage(
-              email: _emailController.text.trim(),
-            ),
-          ),
+          AppRoutes.otpVerification,
+          arguments: OtpRouteArguments(email: _emailController.text.trim()),
         );
       },
       child: Text(
-        languageProvider.text("login"),
+        languageProvider.text(AppStringKeys.login),
         style: AppTextStyles.button,
       ),
     ),
@@ -276,16 +273,11 @@ void _showSnackBar(String message) {
         ),
         TextButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const RegisterPage(),
-              ),
-            );
+            Navigator.pushNamed(context, AppRoutes.register);
           },
           
           child: Text(
-            languageProvider.text("register"),
+            languageProvider.text(AppStringKeys.register),
           ),
         ),
       ],

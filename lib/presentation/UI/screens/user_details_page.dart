@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../core/theme/app_colors.dart';
-import '../models/user.dart';
-import '../providers/language_provider.dart';
-import '../core/extensions/context_extension.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../models/user.dart';
+import '../../../providers/language_provider.dart';
+import '../../../core/extensions/context_extension.dart';
+import '../widgets/common_app_bar.dart';
 
 class UserDetailsPage extends StatelessWidget {
   final User user;
@@ -14,10 +15,10 @@ class UserDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final language = context.language;
+    final language = AppContext(context).language;
 
     return Scaffold(
-      appBar: _buildAppBar(language),
+      appBar: buildAppBar(title: language.text("user_details")),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -33,17 +34,6 @@ class UserDetailsPage extends StatelessWidget {
             _buildUserDetails(language),
           ],
         ),
-      ),
-    );
-  }
-
-  //AppBar
-  AppBar _buildAppBar(LanguageProvider languageProvider) {
-    return AppBar(
-      backgroundColor: AppColors.primary,
-      foregroundColor: AppColors.white,
-      title: Text(
-        languageProvider.text("user_details"),
       ),
     );
   }
@@ -81,13 +71,13 @@ class UserDetailsPage extends StatelessWidget {
       children: [
         _buildDetailTile(
           Icons.person,
-          'First name',
+          languageProvider.text("first_name"),
           user.firstName,
         ),
 
         _buildDetailTile(
           Icons.person,
-          'Last name',
+          languageProvider.text("last_name"),
           user.lastName,
         ),
 
