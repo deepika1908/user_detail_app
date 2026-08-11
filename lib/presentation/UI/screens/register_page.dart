@@ -102,10 +102,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
 @override
 Widget build(BuildContext context) {
-  // final languageProvider = Provider.of<LanguageProvider>(context);
 final languageProvider = AppContext(context).languageWatch;
   return Scaffold(
-    // backgroundColor: AppColors.white,
     body: SafeArea(
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(

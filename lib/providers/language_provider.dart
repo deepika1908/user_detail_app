@@ -1,5 +1,3 @@
-// this file store current selected language and provide method to change the language
-
 import "package:flutter/material.dart";
 import "../localization/app_string.dart";
 

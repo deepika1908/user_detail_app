@@ -45,7 +45,6 @@ class ProfilePage extends StatelessWidget {
 
 @override
 Widget build(BuildContext context) {
-  //final languageProvider = Provider.of<LanguageProvider>(context);
   final language = AppContext(context).language;
 
 

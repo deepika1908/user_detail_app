@@ -4,7 +4,7 @@ class AppColors {
   AppColors._();
 
   // Primary Colors
-  static const Color primary = Color(0xFF673AB7); // Deep Purple
+  static const Color primary = Color(0xFF673AB7); 
   static const Color secondary = Color(0xFF9575CD);
 
   // Background

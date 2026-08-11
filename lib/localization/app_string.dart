@@ -45,7 +45,6 @@ class AppStrings {
       "otp_resent_successfully": "OTP Resent Successfully",
       "demo_otp": "Demo OTP: 123456",
       "invalid_otp": "Invalid OTP",
-      // "profile": "Profile",
       "phone": "Phone",
       "date_of_birth": "Date of Birth",
       "logout": "Logout",
@@ -86,7 +85,6 @@ class AppStrings {
       "enter_date_of_birth": "Enter Date of Birth",
       "search_users": "Search users...",
       "error": "Error",
-      // "user_management": "User Management"
     },
 
     "ar":{
@@ -116,7 +114,6 @@ class AppStrings {
       "otp_resent_successfully": "تمت إعادة إرسال رمز OTP بنجاح",
       "demo_otp": "رمز OTP التجريبي: 123456",
       "invalid_otp": "رمز OTP غير صالح",
-      // "profile": "الملف الشخصي",
       "phone": "الهاتف",
       "date_of_birth": "تاريخ الميلاد",
       "logout": "تسجيل الخروج",
@@ -154,7 +151,6 @@ class AppStrings {
       "password_required": "كلمة المرور مطلوبة",
       "password_length": "يجب أن تكون كلمة المرور مكونة من 6 أحرف على الأقل",
       "Enter Password": "أدخل كلمة المرور",
-      // "user_management": "إدارة المستخدمين"
       "enter_date_of_birth": "أدخل تاريخ الميلاد",
       }
   };

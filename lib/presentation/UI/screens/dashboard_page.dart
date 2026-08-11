@@ -36,10 +36,8 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     final languageProvider = Provider.of<LanguageProvider>(context);
 
-    // BLoC: Provides dashboard state to this screen.
     return BlocProvider(
       create: (_) => DashboardBloc(),
-      // BLoC: Rebuilds this screen when the selected tab changes.
       child: BlocBuilder<DashboardBloc, DashboardState>(
         builder: (blocContext, state) {
           return Scaffold(

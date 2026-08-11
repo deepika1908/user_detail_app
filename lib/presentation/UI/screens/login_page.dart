@@ -80,8 +80,6 @@ void _showSnackBar(String message) {
     final languageProvider = context.watch<LanguageProvider>();
 
     return Scaffold(
-      // backgroundColor: AppColors.cardBackground,
-
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(

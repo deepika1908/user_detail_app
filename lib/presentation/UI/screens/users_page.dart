@@ -35,10 +35,8 @@ class _UsersPageState extends State<UsersPage> {
 
   @override
   Widget build(BuildContext context) {
-    // BLoC: Provides the search text state to the users screen.
     return BlocProvider(
       create: (_) => UsersBloc(),
-      // BLoC: Rebuilds the user list when the search text changes.
       child: BlocBuilder<UsersBloc, UsersState>(
         builder: (blocContext, state) {
           return Column(
@@ -96,7 +94,6 @@ class _UsersPageState extends State<UsersPage> {
           fillColor: colorScheme.surface,
         ),
         onChanged: (value) {
-          // BLoC: Sends the typed search text to UsersBloc.
           blocContext.read<UsersBloc>().add(UserSearchChanged(value));
         },
       ),
