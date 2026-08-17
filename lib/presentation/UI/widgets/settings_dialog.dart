@@ -1,52 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../../providers/theme_provider.dart';
-import '../../../providers/language_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../bloc/settings/settings_bloc.dart';
+import '../bloc/settings/settings_event.dart';
+import '../bloc/settings/settings_state.dart';
 import '../../../core/styles/screen_text_styles.dart';
 import '../../../core/constants/app_icons.dart';
+import '../../../localization/app_string.dart';
 
 class SettingsDialog extends StatelessWidget {
   const SettingsDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = context.watch<ThemeProvider>();
-    final languageProvider = context.watch<LanguageProvider>();
+    final settings = context.watch<SettingsBloc>().state;
 
     return AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
-      title: _buildHeader(languageProvider),
+      title: _buildHeader(settings),
       content: SizedBox(
         width: 320,
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildThemeSection(themeProvider, languageProvider),
+              _buildThemeSection(context, settings),
 
               const SizedBox(height: 20),
 
-              _buildLanguageSection(languageProvider),
+              _buildLanguageSection(context, settings),
             ],
           ),
         ),
       ),
       actions: [
-        _buildCloseButton(context, languageProvider),
+        _buildCloseButton(context, settings),
       ],
     );
   }
 
   /// Header
-  Widget _buildHeader(LanguageProvider languageProvider) {
+  Widget _buildHeader(SettingsState languageProvider) {
     return Row(
       children: [
         const Icon(AppIcons.settings),
         const SizedBox(width: 10),
         Text(
-          languageProvider.text("settings"),
+          languageProvider.text(AppStringKeys.settings),
           style: ScreenTextStyles.appBarTitle,
         ),
       ],
@@ -55,24 +56,24 @@ class SettingsDialog extends StatelessWidget {
 
   /// Theme Section
   Widget _buildThemeSection(
-    ThemeProvider themeProvider,
-    LanguageProvider languageProvider,
+    BuildContext context,
+    SettingsState languageProvider,
   ) {
     return RadioGroup<bool>(
-      groupValue: themeProvider.isDarkMode,
+      groupValue: languageProvider.isDarkMode,
       onChanged: (value) {
-        if (value != null) themeProvider.changeThemeMode(value);
+        if (value != null) context.read<SettingsBloc>().add(ThemeModeChanged(value ? ThemeMode.dark : ThemeMode.light));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            languageProvider.text("theme"),
+            languageProvider.text(AppStringKeys.theme),
             style: ScreenTextStyles.sectionTitle,
           ),
           const SizedBox(height: 10),
-          _buildThemeTile(title: languageProvider.text("light"), value: false),
-          _buildThemeTile(title: languageProvider.text("dark"), value: true),
+          _buildThemeTile(title: languageProvider.text(AppStringKeys.light), value: false),
+          _buildThemeTile(title: languageProvider.text(AppStringKeys.dark), value: true),
         ],
       ),
     );
@@ -91,23 +92,24 @@ class SettingsDialog extends StatelessWidget {
 
   /// Language Section
   Widget _buildLanguageSection(
-    LanguageProvider languageProvider,
+    BuildContext context,
+    SettingsState languageProvider,
   ) {
     return RadioGroup<String>(
-      groupValue: languageProvider.currentLang,
+      groupValue: languageProvider.languageCode,
       onChanged: (value) {
-        if (value != null) languageProvider.changelang(value);
+        if (value != null) context.read<SettingsBloc>().add(LanguageChanged(value));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            languageProvider.text("language"),
+            languageProvider.text(AppStringKeys.language),
             style: ScreenTextStyles.sectionTitle,
           ),
           const SizedBox(height: 10),
-          _buildLanguageTile(title: languageProvider.text("english"), languageCode: "en"),
-          _buildLanguageTile(title: languageProvider.text("arabic"), languageCode: "ar"),
+          _buildLanguageTile(title: languageProvider.text(AppStringKeys.english), languageCode: "en"),
+          _buildLanguageTile(title: languageProvider.text(AppStringKeys.arabic), languageCode: "ar"),
         ],
       ),
     );
@@ -127,14 +129,14 @@ class SettingsDialog extends StatelessWidget {
   /// Close Button
   Widget _buildCloseButton(
     BuildContext context,
-    LanguageProvider languageProvider,
+    SettingsState languageProvider,
   ) {
     return TextButton(
       onPressed: () {
         Navigator.pop(context);
       },
       child: Text(
-        languageProvider.text("close"),
+        languageProvider.text(AppStringKeys.close),
       ),
     );
   }

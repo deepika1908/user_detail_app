@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../providers/language_provider.dart';
+import '../../../localization/app_string.dart';
 import '../../../core/theme/app_button_style.dart';
 import '../../../core/extensions/context_extension.dart';
 import '../../../core/styles/screen_text_styles.dart';
@@ -95,27 +96,27 @@ Widget _buildProfileDetails(LanguageProvider languageProvider) {
   return Column(
     children: [
       profileRow(
-        languageProvider.text("first_name"),
+        languageProvider.text(AppStringKeys.firstName),
         firstName,
       ),
 
       profileRow(
-        languageProvider.text("last_name"),
+        languageProvider.text(AppStringKeys.lastName),
         lastName,
       ),
 
       profileRow(
-        languageProvider.text("phone"),
+        languageProvider.text(AppStringKeys.phone),
         phone,
       ),
 
       profileRow(
-        languageProvider.text("email"),
+        languageProvider.text(AppStringKeys.email),
         email,
       ),
 
       profileRow(
-        languageProvider.text("date_of_birth"),
+        languageProvider.text(AppStringKeys.dateOfBirth),
         dob,
       ),
     ],
@@ -133,7 +134,7 @@ Widget _buildLogoutButton(
       style: AppButtonStyle.destructive,
       icon: const Icon(Icons.logout),
       label: Text(
-        languageProvider.text("logout"),
+        languageProvider.text(AppStringKeys.logout),
       ),
       onPressed: () {
         Navigator.pushNamedAndRemoveUntil(

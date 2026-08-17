@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../providers/language_provider.dart';
-import '../../providers/theme_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../presentation/UI/bloc/settings/settings_bloc.dart';
+import '../../presentation/UI/bloc/settings/settings_state.dart';
 
 class AppContext {
   AppContext(this.context);
-
   final BuildContext context;
-
-  LanguageProvider get language => context.read<LanguageProvider>();
-  LanguageProvider get languageWatch => context.watch<LanguageProvider>();
-
-  ThemeProvider get theme => context.read<ThemeProvider>();
-  ThemeProvider get themeWatch => context.watch<ThemeProvider>();
+  SettingsState get language => context.read<SettingsBloc>().state;
+  SettingsState get languageWatch => context.watch<SettingsBloc>().state;
+  SettingsState get theme => context.read<SettingsBloc>().state;
+  SettingsState get themeWatch => context.watch<SettingsBloc>().state;
 }

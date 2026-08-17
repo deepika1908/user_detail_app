@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'users_page.dart';
 import 'profile_page.dart';
 import '../widgets/settings_dialog.dart';
@@ -8,8 +7,12 @@ import '../../../providers/language_provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/styles/screen_text_styles.dart';
 import '../../../core/constants/app_icons.dart';
+import '../../../localization/app_string.dart';
 import '../widgets/common_app_bar.dart';
-import '../bloc/dashboard_bloc.dart';
+import '../bloc/dashboard/dashboard_bloc.dart';
+import '../bloc/dashboard/dashboard_event.dart';
+import '../bloc/dashboard/dashboard_state.dart';
+import '../bloc/settings/settings_bloc.dart';
 
 class DashboardPage extends StatefulWidget {
   final String firstName;
@@ -34,7 +37,7 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
-    final languageProvider = Provider.of<LanguageProvider>(context);
+    final languageProvider = context.watch<SettingsBloc>().state;
 
     return BlocProvider(
       create: (_) => DashboardBloc(),
@@ -43,8 +46,8 @@ class _DashboardPageState extends State<DashboardPage> {
           return Scaffold(
             appBar: buildAppBar(
               title: state.selectedIndex == 0
-                  ? languageProvider.text("users")
-                  : languageProvider.text("my_profile"),
+                  ? languageProvider.text(AppStringKeys.users)
+                  : languageProvider.text(AppStringKeys.myProfile),
               automaticallyImplyLeading: false,
               actionIcon: AppIcons.settings,
               onActionPressed: _openSettings,
@@ -110,14 +113,14 @@ Widget _buildWelcomeSection(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "${languageProvider.text("welcome")}, ${widget.firstName} 👋",
+          "${languageProvider.text(AppStringKeys.welcome)}, ${widget.firstName} 👋",
           style: ScreenTextStyles.welcomeTitle,
         ),
 
         const SizedBox(height: 5),
 
         Text(
-          languageProvider.text("user_dashboard"),
+          languageProvider.text(AppStringKeys.userDashboard),
           style: ScreenTextStyles.welcomeSubtitle,
         ),
       ],
@@ -139,13 +142,13 @@ Widget _buildBottomNavigationBar(
       NavigationDestination(
         icon: const Icon(AppIcons.peopleOutline),
         selectedIcon: const Icon(AppIcons.people),
-        label: languageProvider.text("users"),
+        label: languageProvider.text(AppStringKeys.users),
       ),
 
       NavigationDestination(
         icon: const Icon(AppIcons.personOutline),
         selectedIcon: const Icon(AppIcons.person),
-        label: languageProvider.text("profile"),
+        label: languageProvider.text(AppStringKeys.profile),
       ),
     ],
 

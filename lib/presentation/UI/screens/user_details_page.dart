@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../models/user.dart';
 import '../../../providers/language_provider.dart';
+import '../../../localization/app_string.dart';
 import '../../../core/extensions/context_extension.dart';
 import '../widgets/common_app_bar.dart';
 
@@ -18,7 +19,7 @@ class UserDetailsPage extends StatelessWidget {
     final language = AppContext(context).language;
 
     return Scaffold(
-      appBar: buildAppBar(title: language.text("user_details")),
+      appBar: buildAppBar(title: language.text(AppStringKeys.userDetails)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -71,25 +72,25 @@ class UserDetailsPage extends StatelessWidget {
       children: [
         _buildDetailTile(
           Icons.person,
-          languageProvider.text("first_name"),
+          languageProvider.text(AppStringKeys.firstName),
           user.firstName,
         ),
 
         _buildDetailTile(
           Icons.person,
-          languageProvider.text("last_name"),
+          languageProvider.text(AppStringKeys.lastName),
           user.lastName,
         ),
 
         _buildDetailTile(
           Icons.email,
-          languageProvider.text("email"),
+          languageProvider.text(AppStringKeys.email),
           user.email,
         ),
 
         _buildDetailTile(
           Icons.phone,
-          languageProvider.text("phone"),
+          languageProvider.text(AppStringKeys.phone),
           user.phone,
         ),
 
