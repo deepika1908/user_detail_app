@@ -3,31 +3,17 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  // Primary Colors
-  static const Color primary = Color(0xFF673AB7); 
-  static const Color secondary = Color(0xFF9575CD);
+  static const white = Color(0xFFFFFFFF);
+  static const black = Color(0xFF000000);
+  static const grey = Color(0xFF9E9E9E);
+  static const red = Color(0xFFF44336);
+  static const primary = Color(0xFF673AB7);
+  static const secondary = Color(0xFF9575CD);
 
-  // Background
-  static const Color scaffoldBackground = Color(0xFFF5F5F5);
-  static const Color cardBackground = Colors.white;
-
-  // Basic Colors
-  static const Color white = Colors.white;
-  static const Color black = Colors.black;
-  static const Color red = Colors.red;
-
-  // Text Colors
-  static const Color textPrimary = Color(0xFF212121);
-  static const Color textSecondary = Color(0xFF757575);
-
-  // Border
-  static const Color border = Color(0xFFE0E0E0);
-
-  // Status Colors
-  static const Color success = Colors.green;
-  static const Color error = Colors.red;
-  static const Color warning = Colors.orange;
-
-  // Others
-  static const Color grey = Colors.grey;
+  static const scaffoldBackground = white;
+  static const cardBackground = white;
+  static const textPrimary = black;
+  static const textSecondary = grey;
+  static const border = grey;
+  static const error = red;
 }
