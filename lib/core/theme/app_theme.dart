@@ -1,81 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// import 'app_colors.dart';
-// import '../constants/app_sizes.dart';
-
-// class AppTheme {
-//   AppTheme._();
-
-//   static ThemeData get lightTheme {
-//     return ThemeData(
-//       useMaterial3: true,
-//       scaffoldBackgroundColor: AppColors.scaffoldBackground,
-//       primaryColor: AppColors.primary,
-
-//       colorScheme: ColorScheme.fromSeed(
-//         seedColor: AppColors.primary,
-//       ),
-
-//       appBarTheme: const AppBarTheme(
-//         centerTitle: true,
-//         backgroundColor: AppColors.primary,
-//         foregroundColor: AppColors.white,
-//         elevation: 0,
-//       ),
-
-//       inputDecorationTheme: InputDecorationTheme(
-//         filled: true,
-//         fillColor: AppColors.white,
-
-//         contentPadding: const EdgeInsets.symmetric(
-//           horizontal: AppSizes.p16,
-//           vertical: AppSizes.p16,
-//         ),
-
-//         border: OutlineInputBorder(
-//           borderRadius: BorderRadius.circular(
-//             AppSizes.radius12,
-//           ),
-//         ),
-
-//         enabledBorder: OutlineInputBorder(
-//           borderRadius: BorderRadius.circular(
-//             AppSizes.radius12,
-//           ),
-//           borderSide: const BorderSide(
-//             color: AppColors.border,
-//           ),
-//         ),
-
-//         focusedBorder: OutlineInputBorder(
-//           borderRadius: BorderRadius.circular(
-//             AppSizes.radius12,
-//           ),
-//           borderSide: const BorderSide(
-//             color: AppColors.primary,
-//             width: 2,
-//           ),
-//         ),
-//       ),
-
-//       elevatedButtonTheme: ElevatedButtonThemeData(
-//         style: ElevatedButton.styleFrom(
-//           minimumSize: const Size(
-//             double.infinity,
-//             AppSizes.buttonHeight,
-//           ),
-//           backgroundColor: AppColors.primary,
-//           foregroundColor: AppColors.white,
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(
-//               AppSizes.radius12,
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 import 'package:flutter/material.dart';
 
 import '../constants/app_sizes.dart';
@@ -84,7 +6,6 @@ import 'app_colors.dart';
 class AppTheme {
   AppTheme._();
 
-  // ---------------- LIGHT THEME ----------------
 
   static ThemeData get lightTheme {
     return ThemeData(
@@ -97,6 +18,10 @@ class AppTheme {
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.primary,
         brightness: Brightness.light,
+      ).copyWith(
+        primary: AppColors.primary,
+        secondary: AppColors.secondary,
+        error: AppColors.red,
       ),
 
       appBarTheme: const AppBarTheme(
@@ -153,31 +78,34 @@ class AppTheme {
     );
   }
 
-  // ---------------- DARK THEME ----------------
 
   static ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
 
-      scaffoldBackgroundColor: const Color(0xff121212),
+      scaffoldBackgroundColor: AppColors.black,
       primaryColor: AppColors.primary,
 
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.primary,
         brightness: Brightness.dark,
+      ).copyWith(
+        primary: AppColors.primary,
+        secondary: AppColors.secondary,
+        error: AppColors.red,
       ),
 
       appBarTheme: const AppBarTheme(
         centerTitle: true,
-        backgroundColor: Color(0xff1E1E1E),
-        foregroundColor: Colors.white,
+        backgroundColor: AppColors.black,
+        foregroundColor: AppColors.white,
         elevation: 0,
       ),
 
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: const Color(0xff1E1E1E),
+        fillColor: AppColors.black,
 
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppSizes.p16,
@@ -191,7 +119,7 @@ class AppTheme {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radius12),
           borderSide: const BorderSide(
-            color: Colors.grey,
+            color: AppColors.grey,
           ),
         ),
 
@@ -211,7 +139,7 @@ class AppTheme {
             AppSizes.buttonHeight,
           ),
           backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
+          foregroundColor: AppColors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
               AppSizes.radius12,
