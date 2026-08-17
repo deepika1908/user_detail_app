@@ -16,42 +16,46 @@ class AppRoutes {
   static const dashboard = '/dashboard';
   static const userDetails = '/user-details';
 
-  static Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    switch (settings.name) {
-      case login:
-        return MaterialPageRoute(builder: (_) => const LoginPage());
-      case register:
-        return MaterialPageRoute(builder: (_) => const RegisterPage());
-      case otpVerification:
-        final arguments = settings.arguments! as OtpRouteArguments;
-        return MaterialPageRoute(
-          builder: (_) => OtpVerificationPage(
-            firstName: arguments.firstName,
-            lastName: arguments.lastName,
-            phone: arguments.phone,
-            email: arguments.email,
-            dob: arguments.dob,
-          ),
-        );
-      case dashboard:
-        final arguments = settings.arguments! as DashboardRouteArguments;
-        return MaterialPageRoute(
-          builder: (_) => DashboardPage(
-            firstName: arguments.firstName,
-            lastName: arguments.lastName,
-            phone: arguments.phone,
-            email: arguments.email,
-            dob: arguments.dob,
-          ),
-        );
-      case userDetails:
-        final arguments = settings.arguments! as UserDetailsRouteArguments;
-        return MaterialPageRoute(
-          builder: (_) => UserDetailsPage(user: arguments.user),
-        );
-      default:
-        return MaterialPageRoute(builder: (_) => const LoginPage());
-    }
+  static Route<void> onGenerateRoute(RouteSettings settings) {
+    final Widget page = switch (settings.name) {
+      login => const LoginPage(),
+      register => const RegisterPage(),
+      otpVerification => _otpPage(_argumentsOf<OtpRouteArguments>(settings)),
+      dashboard => _dashboardPage(_argumentsOf<DashboardRouteArguments>(settings)),
+      userDetails => UserDetailsPage(user: _argumentsOf<UserDetailsRouteArguments>(settings).user),
+      _ => const LoginPage(),
+    };
+
+    return MaterialPageRoute<void>(
+      settings: settings,
+      builder: (_) => page,
+    );
+  }
+
+  static OtpVerificationPage _otpPage(OtpRouteArguments arguments) {
+    return OtpVerificationPage(
+      firstName: arguments.firstName,
+      lastName: arguments.lastName,
+      phone: arguments.phone,
+      email: arguments.email,
+      dob: arguments.dob,
+    );
+  }
+
+  static DashboardPage _dashboardPage(DashboardRouteArguments arguments) {
+    return DashboardPage(
+      firstName: arguments.firstName,
+      lastName: arguments.lastName,
+      phone: arguments.phone,
+      email: arguments.email,
+      dob: arguments.dob,
+    );
+  }
+
+  static T _argumentsOf<T>(RouteSettings settings) {
+    final arguments = settings.arguments;
+    if (arguments is T) return arguments;
+    throw ArgumentError('Route "${settings.name}" requires $T arguments.');
   }
 }
 
