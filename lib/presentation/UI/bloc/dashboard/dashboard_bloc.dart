@@ -5,6 +5,14 @@ import 'dashboard_state.dart';
 
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   DashboardBloc() : super(const DashboardState()) {
-    on<DashboardTabChanged>((event, emit) => emit(DashboardState(selectedIndex: event.index)));
+    on<DashboardTabChanged>(
+      (event, emit) {
+        emit(
+          DashboardState(
+            selectedIndex: event.index,
+          ),
+        );
+      },
+    );
   }
 }

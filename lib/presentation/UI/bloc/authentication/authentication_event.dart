@@ -3,13 +3,24 @@ sealed class AuthenticationEvent {
 }
 
 final class LoginSubmitted extends AuthenticationEvent {
-  const LoginSubmitted({required this.email, required this.password});
+  const LoginSubmitted({
+    required this.email,
+    required this.password,
+  });
+
   final String email;
   final String password;
 }
 
 final class RegistrationSubmitted extends AuthenticationEvent {
-  const RegistrationSubmitted({required this.firstName, required this.lastName, required this.phone, required this.email, required this.dob});
+  const RegistrationSubmitted({
+    required this.firstName,
+    required this.lastName,
+    required this.phone,
+    required this.email,
+    required this.dob,
+  });
+
   final String firstName;
   final String lastName;
   final String phone;
@@ -19,5 +30,6 @@ final class RegistrationSubmitted extends AuthenticationEvent {
 
 final class OtpSubmitted extends AuthenticationEvent {
   const OtpSubmitted(this.otp);
+
   final String otp;
 }
