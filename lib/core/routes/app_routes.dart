@@ -23,46 +23,39 @@ class AppRoutes {
       GoRoute(path: register, builder: (_, _) => const RegisterPage()),
       GoRoute(
         path: otpVerification,
-        builder: (_, state) => _otpPage(_extraOf<OtpRouteArguments>(state)),
+        builder: (_, state) {
+          final arguments = state.extra as OtpRouteArguments;
+          return OtpVerificationPage(
+            firstName: arguments.firstName,
+            lastName: arguments.lastName,
+            phone: arguments.phone,
+            email: arguments.email,
+            dob: arguments.dob,
+          );
+        },
       ),
       GoRoute(
         path: dashboard,
-        builder: (_, state) =>
-            _dashboardPage(_extraOf<DashboardRouteArguments>(state)),
+        builder: (_, state) {
+          final arguments = state.extra as DashboardRouteArguments;
+          return DashboardPage(
+            firstName: arguments.firstName,
+            lastName: arguments.lastName,
+            phone: arguments.phone,
+            email: arguments.email,
+            dob: arguments.dob,
+          );
+        },
       ),
       GoRoute(
         path: userDetails,
-        builder: (_, state) => UserDetailsPage(
-          user: _extraOf<UserDetailsRouteArguments>(state).user,
-        ),
+        builder: (_, state) {
+          final arguments = state.extra as UserDetailsRouteArguments;
+          return UserDetailsPage(user: arguments.user);
+        },
       ),
     ],
   );
-
-  static OtpVerificationPage _otpPage(OtpRouteArguments arguments) {
-    return OtpVerificationPage(
-      firstName: arguments.firstName,
-      lastName: arguments.lastName,
-      phone: arguments.phone,
-      email: arguments.email,
-      dob: arguments.dob,
-    );
-  }
-
-  static DashboardPage _dashboardPage(DashboardRouteArguments arguments) {
-    return DashboardPage(
-      firstName: arguments.firstName,
-      lastName: arguments.lastName,
-      phone: arguments.phone,
-      email: arguments.email,
-      dob: arguments.dob,
-    );
-  }
-
-  static T _extraOf<T>(GoRouterState state) {
-    if (state.extra case final T arguments) return arguments;
-    throw ArgumentError('Route "${state.uri}" requires $T arguments.');
-  }
 }
 
 class OtpRouteArguments {
