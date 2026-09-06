@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../models/user.dart';
 import '../../presentation/UI/screens/dashboard_page.dart';
@@ -16,21 +16,28 @@ class AppRoutes {
   static const dashboard = '/dashboard';
   static const userDetails = '/user-details';
 
-  static Route<void> onGenerateRoute(RouteSettings settings) {
-    final Widget page = switch (settings.name) {
-      login => const LoginPage(),
-      register => const RegisterPage(),
-      otpVerification => _otpPage(_argumentsOf<OtpRouteArguments>(settings)),
-      dashboard => _dashboardPage(_argumentsOf<DashboardRouteArguments>(settings)),
-      userDetails => UserDetailsPage(user: _argumentsOf<UserDetailsRouteArguments>(settings).user),
-      _ => const LoginPage(),
-    };
-
-    return MaterialPageRoute<void>(
-      settings: settings,
-      builder: (_) => page,
-    );
-  }
+  static final GoRouter router = GoRouter(
+    initialLocation: login,
+    routes: [
+      GoRoute(path: login, builder: (_, _) => const LoginPage()),
+      GoRoute(path: register, builder: (_, _) => const RegisterPage()),
+      GoRoute(
+        path: otpVerification,
+        builder: (_, state) => _otpPage(_extraOf<OtpRouteArguments>(state)),
+      ),
+      GoRoute(
+        path: dashboard,
+        builder: (_, state) =>
+            _dashboardPage(_extraOf<DashboardRouteArguments>(state)),
+      ),
+      GoRoute(
+        path: userDetails,
+        builder: (_, state) => UserDetailsPage(
+          user: _extraOf<UserDetailsRouteArguments>(state).user,
+        ),
+      ),
+    ],
+  );
 
   static OtpVerificationPage _otpPage(OtpRouteArguments arguments) {
     return OtpVerificationPage(
@@ -52,10 +59,9 @@ class AppRoutes {
     );
   }
 
-  static T _argumentsOf<T>(RouteSettings settings) {
-    final arguments = settings.arguments;
-    if (arguments is T) return arguments;
-    throw ArgumentError('Route "${settings.name}" requires $T arguments.');
+  static T _extraOf<T>(GoRouterState state) {
+    if (state.extra case final T arguments) return arguments;
+    throw ArgumentError('Route "${state.uri}" requires $T arguments.');
   }
 }
 

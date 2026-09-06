@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/settings/settings_bloc.dart';
-import '../bloc/settings/settings_event.dart';
-import '../bloc/settings/settings_state.dart';
-import '../../../core/styles/screen_text_styles.dart';
+import 'package:go_router/go_router.dart';
+import '../bloc/app/app_bloc.dart';
+import '../bloc/app/app_event.dart';
+import '../bloc/app/app_state.dart';
+import '../../../core/styles/text_styles.dart';
 import '../../../core/constants/app_icons.dart';
 import '../../../localization/app_string.dart';
 
@@ -12,12 +13,11 @@ class SettingsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settings = context.watch<SettingsBloc>().state;
+    // Unified state BLoC: supplies settings and receives settings changes.
+    final settings = context.watch<AppBloc>().state;
 
     return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       title: _buildHeader(settings),
       content: SizedBox(
         width: 320,
@@ -34,82 +34,95 @@ class SettingsDialog extends StatelessWidget {
           ),
         ),
       ),
-      actions: [
-        _buildCloseButton(context, settings),
-      ],
+      actions: [_buildCloseButton(context, settings)],
     );
   }
 
   /// Header
-  Widget _buildHeader(SettingsState languageProvider) {
+  Widget _buildHeader(AppState languageProvider) {
     return Row(
       children: [
         const Icon(AppIcons.settings),
         const SizedBox(width: 10),
         Text(
           languageProvider.text(AppStringKeys.settings),
-          style: ScreenTextStyles.appBarTitle,
+          style: AppTextStyles.smallText.copyWith(fontWeight: FontWeight.bold),
         ),
       ],
     );
   }
 
   /// Theme Section
-  Widget _buildThemeSection(
-    BuildContext context,
-    SettingsState languageProvider,
-  ) {
+  Widget _buildThemeSection(BuildContext context, AppState languageProvider) {
     return RadioGroup<bool>(
       groupValue: languageProvider.isDarkMode,
       onChanged: (value) {
-        if (value != null) context.read<SettingsBloc>().add(ThemeModeChanged(value ? ThemeMode.dark : ThemeMode.light));
+        if (value != null) {
+          // Unified state BLoC: persists the selected theme mode.
+          context.read<AppBloc>().add(
+            AppThemeModeChanged(value ? ThemeMode.dark : ThemeMode.light),
+          );
+        }
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             languageProvider.text(AppStringKeys.theme),
-            style: ScreenTextStyles.sectionTitle,
+            style: AppTextStyles.mediumText.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 10),
-          _buildThemeTile(title: languageProvider.text(AppStringKeys.light), value: false),
-          _buildThemeTile(title: languageProvider.text(AppStringKeys.dark), value: true),
+          _buildThemeTile(
+            title: languageProvider.text(AppStringKeys.light),
+            value: false,
+          ),
+          _buildThemeTile(
+            title: languageProvider.text(AppStringKeys.dark),
+            value: true,
+          ),
         ],
       ),
     );
   }
 
   /// Theme Radio Tile
-  Widget _buildThemeTile({
-    required String title,
-    required bool value,
-  }) {
-    return RadioListTile<bool>(
-      title: Text(title),
-      value: value,
-    );
+  Widget _buildThemeTile({required String title, required bool value}) {
+    return RadioListTile<bool>(title: Text(title), value: value);
   }
 
   /// Language Section
   Widget _buildLanguageSection(
     BuildContext context,
-    SettingsState languageProvider,
+    AppState languageProvider,
   ) {
     return RadioGroup<String>(
       groupValue: languageProvider.languageCode,
       onChanged: (value) {
-        if (value != null) context.read<SettingsBloc>().add(LanguageChanged(value));
+        if (value != null) {
+          // Unified state BLoC: persists the selected language.
+          context.read<AppBloc>().add(AppLanguageChanged(value));
+        }
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             languageProvider.text(AppStringKeys.language),
-            style: ScreenTextStyles.sectionTitle,
+            style: AppTextStyles.mediumText.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 10),
-          _buildLanguageTile(title: languageProvider.text(AppStringKeys.english), languageCode: "en"),
-          _buildLanguageTile(title: languageProvider.text(AppStringKeys.arabic), languageCode: "ar"),
+          _buildLanguageTile(
+            title: languageProvider.text(AppStringKeys.english),
+            languageCode: "en",
+          ),
+          _buildLanguageTile(
+            title: languageProvider.text(AppStringKeys.arabic),
+            languageCode: "ar",
+          ),
         ],
       ),
     );
@@ -120,24 +133,16 @@ class SettingsDialog extends StatelessWidget {
     required String title,
     required String languageCode,
   }) {
-    return RadioListTile<String>(
-      title: Text(title),
-      value: languageCode,
-    );
+    return RadioListTile<String>(title: Text(title), value: languageCode);
   }
 
   /// Close Button
-  Widget _buildCloseButton(
-    BuildContext context,
-    SettingsState languageProvider,
-  ) {
+  Widget _buildCloseButton(BuildContext context, AppState languageProvider) {
     return TextButton(
       onPressed: () {
-        Navigator.pop(context);
+        context.pop();
       },
-      child: Text(
-        languageProvider.text(AppStringKeys.close),
-      ),
+      child: Text(languageProvider.text(AppStringKeys.close)),
     );
   }
 }

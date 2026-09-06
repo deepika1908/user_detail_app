@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/constants/app_icons.dart';
-import '../../../core/styles/screen_text_styles.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/styles/text_styles.dart';
+import '../../../core/styles/app_colors.dart';
 
 PreferredSizeWidget buildAppBar({
   required String title,
@@ -16,7 +16,13 @@ PreferredSizeWidget buildAppBar({
     backgroundColor: AppColors.primary,
     foregroundColor: AppColors.white,
     centerTitle: true,
-    title: Text(title, style: ScreenTextStyles.appBarTitle),
+    title: Text(
+      title,
+      style: AppTextStyles.smallText.copyWith(
+        fontWeight: FontWeight.bold,
+        color: AppColors.white,
+      ),
+    ),
     actions: onActionPressed == null
         ? null
         : [

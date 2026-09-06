@@ -4,15 +4,14 @@ import 'users_page.dart';
 import 'profile_page.dart';
 import '../widgets/settings_dialog.dart';
 import '../../../providers/language_provider.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/styles/screen_text_styles.dart';
+import '../../../core/styles/app_colors.dart';
+import '../../../core/styles/text_styles.dart';
 import '../../../core/constants/app_icons.dart';
 import '../../../localization/app_string.dart';
 import '../widgets/common_app_bar.dart';
-import '../bloc/dashboard/dashboard_bloc.dart';
-import '../bloc/dashboard/dashboard_event.dart';
-import '../bloc/dashboard/dashboard_state.dart';
-import '../bloc/settings/settings_bloc.dart';
+import '../bloc/app/app_bloc.dart';
+import '../bloc/app/app_event.dart';
+import '../bloc/app/app_state.dart';
 
 class DashboardPage extends StatefulWidget {
   final String firstName;
@@ -37,124 +36,114 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
-    final languageProvider = context.watch<SettingsBloc>().state;
+    // Unified state BLoC: drives the dashboard tab and localized content.
+    return BlocBuilder<AppBloc, AppState>(
+      builder: (blocContext, state) {
+        final languageProvider = state;
+        return Scaffold(
+          appBar: buildAppBar(
+              title: state.selectedDashboardIndex == 0
+                ? languageProvider.text(AppStringKeys.users)
+                : languageProvider.text(AppStringKeys.myProfile),
+            automaticallyImplyLeading: false,
+            actionIcon: AppIcons.settings,
+            onActionPressed: _openSettings,
+          ),
+            body: _buildBody(languageProvider, state.selectedDashboardIndex),
+          bottomNavigationBar: _buildBottomNavigationBar(
+            blocContext,
+            languageProvider,
+              state.selectedDashboardIndex,
+          ),
+        );
+      },
+    );
+  }
 
-    return BlocProvider(
-      create: (_) => DashboardBloc(),
-      child: BlocBuilder<DashboardBloc, DashboardState>(
-        builder: (blocContext, state) {
-          return Scaffold(
-            appBar: buildAppBar(
-              title: state.selectedIndex == 0
-                  ? languageProvider.text(AppStringKeys.users)
-                  : languageProvider.text(AppStringKeys.myProfile),
-              automaticallyImplyLeading: false,
-              actionIcon: AppIcons.settings,
-              onActionPressed: _openSettings,
+  List<Widget> _getPages() {
+    return [
+      const UsersPage(),
+      ProfilePage(
+        firstName: widget.firstName,
+        lastName: widget.lastName,
+        phone: widget.phone,
+        email: widget.email,
+        dob: widget.dob,
+      ),
+    ];
+  }
+
+  void _openSettings() {
+    showDialog(context: context, builder: (_) => const SettingsDialog());
+  }
+
+  Widget _buildBody(LanguageProvider languageProvider, int selectedIndex) {
+    final pages = _getPages();
+
+    return Column(
+      children: [
+        if (selectedIndex == 0) _buildWelcomeSection(languageProvider),
+
+        Expanded(child: pages[selectedIndex]),
+      ],
+    );
+  }
+
+  Widget _buildWelcomeSection(LanguageProvider languageProvider) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      color: AppColors.primary,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "${languageProvider.text(AppStringKeys.welcome)}, ${widget.firstName} 👋",
+            style: AppTextStyles.largeText.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.white,
             ),
-            body: _buildBody(languageProvider, state.selectedIndex),
-            bottomNavigationBar: _buildBottomNavigationBar(
-              blocContext,
-              languageProvider,
-              state.selectedIndex,
-            ),
-          );
-        },
+          ),
+
+          const SizedBox(height: 5),
+
+          Text(
+            languageProvider.text(AppStringKeys.userDashboard),
+            style: AppTextStyles.smallText.copyWith(color: AppColors.white),
+          ),
+        ],
       ),
     );
   }
 
-List<Widget> _getPages() {
-  return [
-    const UsersPage(),
-    ProfilePage(
-      firstName: widget.firstName,
-      lastName: widget.lastName,
-      phone: widget.phone,
-      email: widget.email,
-      dob: widget.dob,
-    ),
-  ];
-}
+  Widget _buildBottomNavigationBar(
+    BuildContext blocContext,
+    LanguageProvider languageProvider,
+    int selectedIndex,
+  ) {
+    return NavigationBar(
+      selectedIndex: selectedIndex,
+      indicatorColor: AppColors.primary,
+      height: 70,
 
-void _openSettings() {
-  showDialog(
-    context: context,
-    builder: (_) => const SettingsDialog(),
-  );
-}
-
-Widget _buildBody(
-  LanguageProvider languageProvider,
-  int selectedIndex,
-) {
-  final pages = _getPages();
-
-  return Column(
-    children: [
-      if (selectedIndex == 0)
-        _buildWelcomeSection(languageProvider),
-
-      Expanded(
-        child: pages[selectedIndex],
-      ),
-    ],
-  );
-}
-
-Widget _buildWelcomeSection(
-  LanguageProvider languageProvider,
-) {
-  return Container(
-    width: double.infinity,
-    padding: const EdgeInsets.all(16),
-    color: AppColors.primary,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "${languageProvider.text(AppStringKeys.welcome)}, ${widget.firstName} 👋",
-          style: ScreenTextStyles.welcomeTitle,
+      destinations: [
+        NavigationDestination(
+          icon: const Icon(AppIcons.peopleOutline),
+          selectedIcon: const Icon(AppIcons.people),
+          label: languageProvider.text(AppStringKeys.users),
         ),
 
-        const SizedBox(height: 5),
-
-        Text(
-          languageProvider.text(AppStringKeys.userDashboard),
-          style: ScreenTextStyles.welcomeSubtitle,
+        NavigationDestination(
+          icon: const Icon(AppIcons.personOutline),
+          selectedIcon: const Icon(AppIcons.person),
+          label: languageProvider.text(AppStringKeys.profile),
         ),
       ],
-    ),
-  );
+
+      onDestinationSelected: (index) {
+        // Unified state BLoC: stores the selected dashboard tab.
+        blocContext.read<AppBloc>().add(AppDashboardTabChanged(index));
+      },
+    );
+  }
 }
-
-Widget _buildBottomNavigationBar(
-  BuildContext blocContext,
-  LanguageProvider languageProvider,
-  int selectedIndex,
-) {
-  return NavigationBar(
-    selectedIndex: selectedIndex,
-    indicatorColor: AppColors.primary,
-    height: 70,
-
-    destinations: [
-      NavigationDestination(
-        icon: const Icon(AppIcons.peopleOutline),
-        selectedIcon: const Icon(AppIcons.people),
-        label: languageProvider.text(AppStringKeys.users),
-      ),
-
-      NavigationDestination(
-        icon: const Icon(AppIcons.personOutline),
-        selectedIcon: const Icon(AppIcons.person),
-        label: languageProvider.text(AppStringKeys.profile),
-      ),
-    ],
-
-    onDestinationSelected: (index) {
-      // BLoC: Sends the selected tab event to DashboardBloc.
-      blocContext.read<DashboardBloc>().add(DashboardTabChanged(index));
-    },
-  );
-}}

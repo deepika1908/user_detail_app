@@ -1,5 +1,4 @@
-import '../presentation/UI/bloc/settings/settings_state.dart';
+import '../presentation/UI/bloc/app/app_state.dart';
 
 /// Deprecated name retained while static UI helpers are migrated.
-typedef LanguageProvider = SettingsState;
-
+typedef LanguageProvider = AppState;

@@ -6,9 +6,7 @@ import '../../models/user.dart';
 
 class ApiService {
   Future<List<User>> fetchUsers() async {
-    final response = await http.get(
-      Uri.parse('https://dummyjson.com/users'),
-    );
+    final response = await http.get(Uri.parse('https://dummyjson.com/users'));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);

@@ -1,3 +1,3 @@
-import '../presentation/UI/bloc/settings/settings_state.dart';
+import '../presentation/UI/bloc/app/app_state.dart';
 
-typedef ThemeProvider = SettingsState;
+typedef ThemeProvider = AppState;

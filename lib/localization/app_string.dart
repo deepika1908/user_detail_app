@@ -165,8 +165,10 @@ class AppStringKeys {
     AppStringKeys.invalidPhoneNumber: 'أدخل رقم هاتف صالحاً من 10 أرقام',
     AppStringKeys.dateOfBirthRequired: 'تاريخ الميلاد مطلوب',
     AppStringKeys.passwordRequired: 'كلمة المرور مطلوبة',
-    AppStringKeys.passwordLength: 'يجب أن تتكون كلمة المرور من 6 أحرف على الأقل',
-    AppStringKeys.invalidCredentials: 'البريد الإلكتروني أو كلمة المرور غير صحيحة',
+    AppStringKeys.passwordLength:
+        'يجب أن تتكون كلمة المرور من 6 أحرف على الأقل',
+    AppStringKeys.invalidCredentials:
+        'البريد الإلكتروني أو كلمة المرور غير صحيحة',
     AppStringKeys.otpVerification: 'التحقق من رمز OTP',
     AppStringKeys.enterSixDigitOtp: 'أدخل رمز OTP المكون من 6 أرقام',
     AppStringKeys.enterOtp: 'أدخل رمز OTP',

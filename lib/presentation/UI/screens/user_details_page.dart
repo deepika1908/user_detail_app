@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/styles/app_colors.dart';
+import '../../../core/styles/text_styles.dart';
 import '../../../models/user.dart';
 import '../../../providers/language_provider.dart';
 import '../../../localization/app_string.dart';
@@ -9,10 +10,7 @@ import '../widgets/common_app_bar.dart';
 class UserDetailsPage extends StatelessWidget {
   final User user;
 
-  const UserDetailsPage({
-    super.key,
-    required this.user,
-  });
+  const UserDetailsPage({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -39,17 +37,16 @@ class UserDetailsPage extends StatelessWidget {
     );
   }
 
-  //Avatar 
+  //Avatar
   Widget _buildProfileAvatar() {
     return CircleAvatar(
       radius: 50,
-      backgroundColor:AppColors.white,
+      backgroundColor: AppColors.white,
       child: Text(
         user.firstName[0],
-        style: const TextStyle(
+        style: AppTextStyles.extraLargeText.copyWith(
           fontSize: 36,
           color: AppColors.primary,
-          fontWeight: FontWeight.bold,
         ),
       ),
     );
@@ -59,9 +56,9 @@ class UserDetailsPage extends StatelessWidget {
   Widget _buildUserName() {
     return Text(
       '${user.firstName} ${user.lastName}',
-      style: const TextStyle(
+      style: AppTextStyles.extraLargeText.copyWith(
         fontSize: 26,
-        fontWeight: FontWeight.bold,
+        color: AppColors.textPrimary,
       ),
     );
   }
@@ -93,30 +90,20 @@ class UserDetailsPage extends StatelessWidget {
           languageProvider.text(AppStringKeys.phone),
           user.phone,
         ),
-
       ],
     );
   }
 
   //Detail Tile
-  Widget _buildDetailTile(
-    IconData icon,
-    String title,
-    String value,
-  ) {
+  Widget _buildDetailTile(IconData icon, String title, String value) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
-        leading: Icon(
-          icon,
-          color: AppColors.primary,
-        ),
+        leading: Icon(icon, color: AppColors.primary),
         title: Text(title),
         subtitle: Text(
           value,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-          ),
+          style: AppTextStyles.smallText.copyWith(fontWeight: FontWeight.w600),
         ),
       ),
     );
