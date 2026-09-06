@@ -11,9 +11,7 @@ class AppColors {
   static const secondary = Color(0xFF9575CD);
 
   static const scaffoldBackground = white;
-  static const cardBackground = white;
   static const textPrimary = black;
   static const textSecondary = grey;
   static const border = grey;
-  static const error = red;
 }
