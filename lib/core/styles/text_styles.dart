@@ -1,46 +1,37 @@
 import 'package:flutter/material.dart';
+
 import 'app_colors.dart';
 
 class AppTextStyles {
   AppTextStyles._();
 
-  static const TextStyle heading = TextStyle(
+  static const TextStyle extraLargeText = TextStyle(
     fontSize: 28,
     fontWeight: FontWeight.bold,
     color: AppColors.primary,
   );
 
-  static const TextStyle subHeading = TextStyle(
+  static const TextStyle largeText = TextStyle(
     fontSize: 22,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
   );
 
-  static const TextStyle title = TextStyle(
+  static const TextStyle mediumText = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
   );
 
-  static const TextStyle body = TextStyle(
+  static const TextStyle smallText = TextStyle(
     fontSize: 16,
+    fontWeight: FontWeight.normal,
     color: AppColors.textPrimary,
   );
 
-  static const TextStyle caption = TextStyle(
+  static const TextStyle extraSmallText = TextStyle(
     fontSize: 14,
+    fontWeight: FontWeight.normal,
     color: AppColors.textSecondary,
   );
-
-  static const TextStyle button = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.bold,
-    color: AppColors.white,
-  );
-
-  static const TextStyle label = TextStyle(
-  fontSize: 16,
-  fontWeight: FontWeight.w500,
-  color: AppColors.textPrimary,
-);
 }

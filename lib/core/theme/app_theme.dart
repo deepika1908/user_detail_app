@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../constants/app_sizes.dart';
-import 'app_colors.dart';
+import '../styles/app_colors.dart';
 
 class AppTheme {
   AppTheme._();
-
 
   static ThemeData get lightTheme {
     return ThemeData(
@@ -15,14 +14,15 @@ class AppTheme {
       scaffoldBackgroundColor: AppColors.scaffoldBackground,
       primaryColor: AppColors.primary,
 
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primary,
-        brightness: Brightness.light,
-      ).copyWith(
-        primary: AppColors.primary,
-        secondary: AppColors.secondary,
-        error: AppColors.red,
-      ),
+      colorScheme:
+          ColorScheme.fromSeed(
+            seedColor: AppColors.primary,
+            brightness: Brightness.light,
+          ).copyWith(
+            primary: AppColors.primary,
+            secondary: AppColors.secondary,
+            error: AppColors.red,
+          ),
 
       appBarTheme: const AppBarTheme(
         centerTitle: true,
@@ -46,38 +46,27 @@ class AppTheme {
 
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radius12),
-          borderSide: const BorderSide(
-            color: AppColors.border,
-          ),
+          borderSide: const BorderSide(color: AppColors.border),
         ),
 
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radius12),
-          borderSide: const BorderSide(
-            color: AppColors.primary,
-            width: 2,
-          ),
+          borderSide: const BorderSide(color: AppColors.primary, width: 2),
         ),
       ),
 
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          minimumSize: const Size(
-            double.infinity,
-            AppSizes.buttonHeight,
-          ),
+          minimumSize: const Size(double.infinity, AppSizes.buttonHeight),
           backgroundColor: AppColors.primary,
           foregroundColor: AppColors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              AppSizes.radius12,
-            ),
+            borderRadius: BorderRadius.circular(AppSizes.radius12),
           ),
         ),
       ),
     );
   }
-
 
   static ThemeData get darkTheme {
     return ThemeData(
@@ -87,14 +76,15 @@ class AppTheme {
       scaffoldBackgroundColor: AppColors.black,
       primaryColor: AppColors.primary,
 
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primary,
-        brightness: Brightness.dark,
-      ).copyWith(
-        primary: AppColors.primary,
-        secondary: AppColors.secondary,
-        error: AppColors.red,
-      ),
+      colorScheme:
+          ColorScheme.fromSeed(
+            seedColor: AppColors.primary,
+            brightness: Brightness.dark,
+          ).copyWith(
+            primary: AppColors.primary,
+            secondary: AppColors.secondary,
+            error: AppColors.red,
+          ),
 
       appBarTheme: const AppBarTheme(
         centerTitle: true,
@@ -118,32 +108,22 @@ class AppTheme {
 
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radius12),
-          borderSide: const BorderSide(
-            color: AppColors.grey,
-          ),
+          borderSide: const BorderSide(color: AppColors.grey),
         ),
 
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radius12),
-          borderSide: const BorderSide(
-            color: AppColors.primary,
-            width: 2,
-          ),
+          borderSide: const BorderSide(color: AppColors.primary, width: 2),
         ),
       ),
 
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          minimumSize: const Size(
-            double.infinity,
-            AppSizes.buttonHeight,
-          ),
+          minimumSize: const Size(double.infinity, AppSizes.buttonHeight),
           backgroundColor: AppColors.primary,
           foregroundColor: AppColors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              AppSizes.radius12,
-            ),
+            borderRadius: BorderRadius.circular(AppSizes.radius12),
           ),
         ),
       ),

@@ -7,9 +7,7 @@ class AppButtonStyle {
   static final ButtonStyle primary = ElevatedButton.styleFrom(
     backgroundColor: AppColors.primary,
     foregroundColor: AppColors.white,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(12),
-    ),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
   );
 
   static final ButtonStyle destructive = ElevatedButton.styleFrom(

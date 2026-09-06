@@ -16,9 +16,7 @@ class AppInputDecoration {
       counterText: counterText,
       filled: filled,
       fillColor: fillColor,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
     );
   }
 }
